@@ -12,7 +12,7 @@ class BasicZope(BasicNamespace):
     vars = copy.deepcopy(BasicNamespace.vars)
     get_var(vars, 'namespace_package').default = 'myzopelib'
     get_var(vars, 'package').default = 'example'
-    vars.insert(2, var('zope2product',
+    vars.insert(3, var('zope2product',
                        'Are you creating a Zope 2 Product?',
                        default=False))
 

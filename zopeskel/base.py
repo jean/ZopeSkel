@@ -6,6 +6,8 @@ from paste.script import templates
 from paste.script.templates import var as base_var
 from paste.script.command import BadCommand
 from paste.script.templates import BasicPackage
+from zopeskel.vars import var, BooleanVar
+from zopeskel.vars import EASY, EXPERT
 
 LICENSE_CATEGORIES = {
     'DFSG' : 'License :: DFSG approved',
@@ -50,6 +52,17 @@ class BaseTemplate(templates.Template):
     #a zopeskel template has to set this to True if it wants to use 
     #localcommand
     use_local_commands = False
+    
+    vars = [
+        BooleanVar('expert_mode', 
+                   'Would you like to run zopeskel in expert mode?', 
+                   False, title="Expert Mode?",
+                   help="""
+In Expert Mode, you will be asked to answer a larger
+number of questions during this setup process.  Most
+users should not run in expert mode.
+                   """),
+    ]
 
     #this is just to be able to add ZopeSkel to the list of paster_plugins if
     #the use_local_commands is set to true and to write a zopeskel section in 
@@ -108,6 +121,21 @@ For more information: paster help COMMAND""" % print_commands
         if self.use_local_commands:
             self.print_subtemplate_notice()
         templates.Template.post(self, *args, **kargs)
+        
+    def _filter_for_modes(self, expert_mode, expected_vars):
+        """ given the boolean 'expert_mode' and a list of expected vars,
+            return a dict of vars to be hidden from view
+        """
+        hidden = {}
+        for var in expected_vars:
+            # if in expert mode, hide vars not for expert mode
+            if expert_mode and EXPERT not in var.modes:
+                hidden[var.name] = 1
+            
+            if not expert_mode and EASY not in var.modes:
+                hidden[var.name] = 1
+            
+        return hidden
 
     def check_vars(self, vars, cmd):
         # Copied and modified from PasteScript's check_vars--
@@ -153,13 +181,23 @@ For more information: paster help COMMAND""" % print_commands
                     var.default = config.get(TEMPLATE_WERE_IN, var.name)
                 if cmd.interactive:
                     prompt = var.pretty_description()
-                    response = cmd.challenge(prompt, var.default, var.should_echo)
+                    response = None
+                    while response is None:
+                        response = cmd.challenge(prompt, var.default, var.should_echo)
+                        if response == '?':
+                            print var.further_help()
+                            response = None;
                     converted_vars[var.name] = response
                 elif var.default is command.NoDefault:
                     errors.append('Required variable missing: %s'
                                   % var.full_description())
                 else:
                     converted_vars[var.name] = var.default
+            # filter the vars for mode.
+            if var.name == 'expert_mode':
+                expert_mode = converted_vars['expert_mode']
+                hidden = self._filter_for_modes(expert_mode, expected_vars)
+                unused_vars.update(hidden)
             else:
                 converted_vars[var.name] = unused_vars.pop(var.name)
 
@@ -188,6 +226,8 @@ For more information: paster help COMMAND""" % print_commands
 
         return result
 
+<<<<<<< .mine
+=======
 
 ##########################################################################
 # Variable
@@ -286,3 +326,4 @@ class DottedVar(var):
                 raise ValidationException("Not a valid Python dotted name: %s ('%s' is not an identifier)" % (value, name))
 
         return value
+>>>>>>> .r98790

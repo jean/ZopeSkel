@@ -9,7 +9,7 @@ class test_var(unittest.TestCase):
     """ test that there is no default implementation of the validation method
     """
     def setUp(self):
-        self.var = var('name', 'title', 'description')
+        self.var = var('name', 'description')
     
     def testValidation(self):
         """ the validation method should raise a ValidationException
@@ -26,7 +26,7 @@ class test_BooleanVar(unittest.TestCase):
     """ verify functionality of the BooleanVar variable class
     """
     def setUp(self):
-        self.bvar = BooleanVar('name', 'title', 'description')
+        self.bvar = BooleanVar('name', 'description')
     
     def testValidation(self):
         """ check to see that various inputs result in a Boolean Value
@@ -52,7 +52,7 @@ class test_StringVar(unittest.TestCase):
     """ verify functionality of the StringVar variable class
     """
     def setUp(self):
-        self.svar = StringVar('name', 'title', 'description')
+        self.svar = StringVar('name', 'description')
     
     def testValidation(self):
         """ check to see that validation returns appropriate values:
@@ -80,7 +80,7 @@ class test_TextVar(unittest.TestCase):
     """ verify functionality of the TextVar variable class
     """
     def setUp(self):
-        self.tvar = TextVar('name', 'title', 'description')
+        self.tvar = TextVar('name', 'description')
     
     def testValidation(self):
         """ we will test this more thoroughly when it does something useful that
@@ -91,7 +91,7 @@ class test_TextVar(unittest.TestCase):
 
 class test_DottedVar(unittest.TestCase):
     def setUp(self):
-        self.dvar = DottedVar('name', 'title', 'description')
+        self.dvar = DottedVar('name', 'description')
     
     def testValidation(self):
         """ all parts of a dotted name must be valid python identifiers

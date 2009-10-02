@@ -1,4 +1,5 @@
-from zopeskel.base import var
+import copy
+from zopeskel.vars import var
 from zopeskel.base import BaseTemplate
 
 class BasicNamespace(BaseTemplate):
@@ -6,8 +7,8 @@ class BasicNamespace(BaseTemplate):
     summary = "A project with a namespace package"
     required_templates = []
     use_cheetah = True
-
-    vars = [
+    vars = copy.deepcopy(BaseTemplate.vars)
+    vars += [
         var('namespace_package', 'Namespace package (like plone)', 
              default='plone'), 
         var('package', 'The package contained namespace package (like example)',
