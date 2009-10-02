@@ -191,13 +191,18 @@ class var(base_var):
 
     def __init__(self, name, description,
                  default='', should_echo=True,
-                 title=None, help=None):
+                 title=None, help=None, widget=None, modes=('all',)):
         self.name = name
         self.description = description
         self.default = default
         self.should_echo = should_echo
         self.title = title
         self.help = help
+        if not widget:
+            self.widget = self._default_widget
+        else:
+            self.widget = widget
+        self.modes = modes
 
     def pretty_description(self):
         title = getattr(self, 'title', self.name) or self.name
@@ -212,6 +217,8 @@ class var(base_var):
 
 
 class BooleanVar(var):
+    _default_widget = 'boolean'
+
     def validate(self, value):
         #Get rid of bonus whitespace
         if isinstance(value, basestring):
@@ -232,6 +239,8 @@ class BooleanVar(var):
 class StringVar(var):
     """Single string values."""
 
+    _default_widget = 'string'
+
     def validate(self, value):
         if not isinstance(value, basestring):
             raise ValidationException("Not a string value: %s" % value)
@@ -244,9 +253,13 @@ class StringVar(var):
 class TextVar(StringVar):
     """Multi-line values."""
 
+    _default_widget = 'text'
+
 
 class DottedVar(var):
     """Variable for 'dotted Python name', eg, 'foo.bar.baz'"""
+
+    _default_widget = 'string'
 
     def validate(self, value):
         if not isinstance(value, basestring):
