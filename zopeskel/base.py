@@ -2,10 +2,9 @@ import os
 import ConfigParser
 from paste.script import pluginlib
 from paste.script import templates
+from paste.script.templates import var as base_var
 from paste.script.command import BadCommand
 from paste.script.templates import BasicPackage
-
-var = templates.var
 
 LICENSE_CATEGORIES = {
     'DFSG' : 'License :: DFSG approved',
@@ -129,6 +128,76 @@ For more information: paster help COMMAND""" % print_commands
         return responses
 
     def check_vars(self, vars, cmd):
+
+        # hook for posing-question
+        # validating & converting
+        # template-specific help
+
         responses = super(BaseTemplate, self).check_vars(vars, cmd)
 
         return self._map_boolean(responses)
+
+
+##########################################################################
+# Variable
+
+class ValidationException(ValueError):
+    """Invalid value provided for variable."""
+
+
+class var(base_var):
+    def validate(self, value):
+        raise Exception("Not Implemented")
+
+
+class BooleanVar(var):
+    def validate(self, value):
+        #Get rid of bonus whitespace
+        if isinstance(value, basestring):
+            value = value.strip().lower()
+
+        #Map special cases to correct values.
+        if value in ['t', 'y', 'yes', 'true', 1]: 
+            value = True
+        elif value in ['f','n','no', 'false', 0]:
+            value = False
+
+        if type(value) != bool:
+            raise ValidationException("Not a valid boolean value: %s" % value)
+
+        return value
+
+
+class StringVar(var):
+    """Single string values."""
+
+    def validate(self, value):
+        if not isinstance(value, basestring):
+            raise ValidationException("Not a string value: %s" % value)
+
+        value = value.strip()
+
+        return value
+
+
+class TextVar(StringVar):
+    """Multi-line values."""
+
+
+class DottedVar(var):
+    """Variable for 'dotted Python name', eg, 'foo.bar.baz'"""
+
+    def validate(self, value):
+        if not isinstance(value, basestring):
+            raise ValidationException("Not a string value: %s" % value)
+        value = value.strip()
+
+        names = value.split(".")
+        for name in names:
+            # Check if Python identifier, http://code.activestate.com/recipes/413487/
+            try:
+                class test(object): __slots__ = [name]
+            except TypeError:
+                raise ValidationException("Not a valid Python dotted name: %s ('%s' is not an identifier)" % (value, name))
+
+        return value
