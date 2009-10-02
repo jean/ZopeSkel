@@ -189,6 +189,8 @@ class ValidationException(ValueError):
 
 class var(base_var):
 
+    _default_widget = 'string'
+
     def __init__(self, name, description,
                  default='', should_echo=True,
                  title=None, help=None, widget=None, modes=('all',)):
