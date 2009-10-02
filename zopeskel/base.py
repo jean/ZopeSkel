@@ -71,7 +71,6 @@ class BaseTemplate(templates.Template):
             """Print a notice about local commands begin availabe (if this is
             indeed the case).
     
-    
             Unfortunately for us, at this stage in the process, the
             egg_info directory has not yet been created (and won't be
             within the scope of this template running [see
@@ -109,33 +108,76 @@ For more information: paster help COMMAND""" % print_commands
             self.print_subtemplate_notice()
         templates.Template.post(self, *args, **kargs)
 
-    def _map_boolean(self, responses):
-        for var in self.vars:
-            if var.name in responses and var.default in [True, False]:
-                value = responses[var.name]
-
-                #Get rid of bonus whitespace
-                if type(value)==str:
-                    value = value.strip()
-
-                #Map special cases to correct values.
-                if value in ['t','T','y','Y']: 
-                    value = True
-                elif value in ['f','F','n','N']:
-                    value = False
-
-                responses[var.name]=value
-        return responses
-
     def check_vars(self, vars, cmd):
+        # Copied and modified from PasteScript's check_vars--
+        # the method there wasn't hookable for the things
+        # we need -- question posing, validation, etc.
+        # 
+        # Admittedly, this could be merged into PasteScript,
+        # but it was decided it was easier to limit scope of 
+        # these changes to ZopeSkel, as other projects may
+        # use PasteScript in very different ways.
 
-        # hook for posing-question
-        # validating & converting
-        # template-specific help
+        cmd._deleted_once = 1      # don't re-del package
 
-        responses = super(BaseTemplate, self).check_vars(vars, cmd)
+        # now, mostly copied direct from paster
+        expect_vars = self.read_vars(cmd)
+        if not expect_vars:
+            # Assume that variables aren't defined
+            return vars
+        converted_vars = {}
+        unused_vars = vars.copy()
+        errors = []
 
-        return self._map_boolean(responses)
+        # TODO: here is where we have to say some things won't be used
+
+        #if var.name == 'button_easy' and converted_vars["button_easy"] == "True":
+        #    unused_vars['author']=1
+        #    unused_vars['author_email']=1
+        #    unused_vars['long_description']=1
+        #    unused_vars['url']=1
+        #    unused_vars['version']=1
+        #    unused_vars['keywords']=1
+        #    unused_vars['license_name']=1
+
+        for var in expect_vars:
+            if var.name not in unused_vars:
+                if cmd.interactive:
+                    prompt = var.pretty_description()
+                    response = cmd.challenge(prompt, var.default, var.should_echo)
+                    converted_vars[var.name] = response
+                elif var.default is command.NoDefault:
+                    errors.append('Required variable missing: %s'
+                                  % var.full_description())
+                else:
+                    converted_vars[var.name] = var.default
+            else:
+                converted_vars[var.name] = unused_vars.pop(var.name)
+
+
+        if errors:
+            raise command.BadCommand(
+                'Errors in variables:\n%s' % '\n'.join(errors))
+        converted_vars.update(unused_vars)
+        vars.update(converted_vars)
+
+        result = converted_vars
+
+        package = vars["project"]
+        result['namespace_package'], result['package'] = package.split(".")
+        result['zip_safe']=False
+        result['zope2product']=True
+
+        if converted_vars['button_easy'] == "True":
+            result['author']='Joel Burton'
+            result['author_email']='joel@joelburton.com'
+            result['long_description']=''
+            result['url']=''
+            result['version']='1.0'
+            result['keywords']=''
+            result['license_name']='GPL'
+
+        return self._map_boolean(result)
 
 
 ##########################################################################
@@ -146,6 +188,25 @@ class ValidationException(ValueError):
 
 
 class var(base_var):
+
+    def __init__(self, name, description,
+                 default='', should_echo=True,
+                 title=None, help=None):
+        self.name = name
+        self.description = description
+        self.default = default
+        self.should_echo = should_echo
+        self.title = title
+        self.help = help
+
+    def pretty_description(self):
+        title = getattr(self, 'title', self.name) or self.name
+
+        if self.description:
+            return '%s (%s)' % (title, self.description)
+        else:
+            return title
+
     def validate(self, value):
         raise NotImplementedError
 

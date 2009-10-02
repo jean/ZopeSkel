@@ -15,7 +15,12 @@ class Plone(BasicNamespace):
     get_var(vars, 'package').default = 'example'
     vars.insert(2, var('zope2product',
                        'Are you creating a Zope 2 Product?',
-                       default=False))
+                       default=False, title='Zope2 Product?',
+                       help="""
+Zope2 products are those meant to be used with
+the Zope2 application server. This will normally be all Plone
+products."""
+                       ))
     get_var(vars, 'author').default = 'Plone Foundation'
     get_var(vars, 'author_email').default = 'plone-developers@lists.sourceforge.net'
     get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/plone.example'
