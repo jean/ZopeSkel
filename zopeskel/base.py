@@ -147,7 +147,7 @@ class ValidationException(ValueError):
 
 class var(base_var):
     def validate(self, value):
-        raise Exception("Not Implemented")
+        raise NotImplementedError
 
 
 class BooleanVar(var):
