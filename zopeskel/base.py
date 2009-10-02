@@ -1,5 +1,6 @@
 import os
 import ConfigParser
+from ConfigParser import SafeConfigParser
 from paste.script import pluginlib
 from paste.script import templates
 from paste.script.templates import var as base_var
@@ -118,6 +119,7 @@ For more information: paster help COMMAND""" % print_commands
         # these changes to ZopeSkel, as other projects may
         # use PasteScript in very different ways.
 
+
         cmd._deleted_once = 1      # don't re-del package
 
         # now, mostly copied direct from paster
@@ -128,6 +130,11 @@ For more information: paster help COMMAND""" % print_commands
         converted_vars = {}
         unused_vars = vars.copy()
         errors = []
+
+        # Get defaults from .zopeskel
+        config = SafeConfigParser()
+        config.read('/tmp/.zopeskel')  # XXX TODO: get from home, safely
+        TEMPLATE_WERE_IN = "plone3_theme" # XXX TODO: totally fake; need to figure out
 
         # TODO: here is where we have to say some things won't be used
 
@@ -142,6 +149,8 @@ For more information: paster help COMMAND""" % print_commands
 
         for var in expect_vars:
             if var.name not in unused_vars:
+                if config.has_option(TEMPLATE_WERE_IN, var.name):
+                    var.default = config.get(TEMPLATE_WERE_IN, var.name)
                 if cmd.interactive:
                     prompt = var.pretty_description()
                     response = cmd.challenge(prompt, var.default, var.should_echo)
@@ -168,16 +177,16 @@ For more information: paster help COMMAND""" % print_commands
         result['zip_safe']=False
         result['zope2product']=True
 
-        if converted_vars['button_easy'] == "True":
-            result['author']='Joel Burton'
-            result['author_email']='joel@joelburton.com'
-            result['long_description']=''
-            result['url']=''
-            result['version']='1.0'
-            result['keywords']=''
-            result['license_name']='GPL'
+        #if converted_vars['button_easy'] == "True":
+        #    result['author']='Joel Burton'
+        #    result['author_email']='joel@joelburton.com'
+        #    result['long_description']=''
+        #    result['url']=''
+        #    result['version']='1.0'
+        #    result['keywords']=''
+        #    result['license_name']='GPL'
 
-        return self._map_boolean(result)
+        return result
 
 
 ##########################################################################
