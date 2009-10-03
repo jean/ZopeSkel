@@ -3,6 +3,7 @@ import copy
 from zopeskel.nested_namespace import NestedNamespace
 from zopeskel.base import get_var
 from zopeskel.base import var
+from zopeskel.basic_zope import VAR_ZOPE2
 
 class PloneApp(NestedNamespace):
     _template_dir = 'templates/plone_app'
@@ -11,10 +12,8 @@ class PloneApp(NestedNamespace):
     use_cheetah = True
 
     vars = copy.deepcopy(NestedNamespace.vars)
-    vars.insert(3, var('zope2product',
-                       'Are you creating a Zope 2 Product?',
-                       default=True))
-    get_var(vars, 'author').default = 'Plone Foundation'
-    get_var(vars, 'author_email').default = 'plone-developers@lists.sourceforge.net'
+    vars.insert(4, VAR_ZOPE2) 
+    get_var(vars, 'author').default = ''
+    get_var(vars, 'author_email').default = ''
     get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/plone.app.example'
 

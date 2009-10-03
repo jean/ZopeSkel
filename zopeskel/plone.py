@@ -10,7 +10,7 @@ class Plone(BasicZope):
     required_templates = ['basic_namespace']
     use_local_commands = True
     use_cheetah = True
-    vars = copy.deepcopy(BasicNamespace.vars)
+    vars = copy.deepcopy(BasicZope.vars)
     get_var(vars, 'namespace_package').default = 'plone'
     get_var(vars, 'package').default = 'example'
     get_var(vars, 'author').default = ''

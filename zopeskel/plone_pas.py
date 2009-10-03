@@ -12,9 +12,9 @@ class PlonePas(NestedNamespace):
 
     vars = copy.deepcopy(NestedNamespace.vars)
     get_var(vars, 'namespace_package2').default = 'pas'
-    get_var(vars, 'author').default = 'Plone Foundation'
-    get_var(vars, 'author_email').default = 'plone-developers@lists.sourceforge.net'
-    get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/plone.app.example'
+    get_var(vars, 'author').default = ''
+    get_var(vars, 'author_email').default = ''
+    get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/pas.plugin.example'
 
     def pre(self, command, output_dir, vars):
       vars['multiplugin_name'] = vars['package'].title()

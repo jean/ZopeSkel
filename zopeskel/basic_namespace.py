@@ -5,7 +5,16 @@ from zopeskel.base import EASY, EXPERT
 
 class BasicNamespace(BaseTemplate):
     _template_dir = 'templates/basic_namespace'
-    summary = "A project with a namespace package"
+    summary = "A basic Python project with a namespace package"
+    help = """
+This creates a Python project without any Zope or Plone features.
+
+This template expects a name in the form 'mycompany.myproject'.
+to have a flat package name ('myproject'), use the 'basic_package'
+template. To use a nested namespace ('collective.company.project'),
+use the 'nested_namespace' template.
+"""
+
     required_templates = []
     use_cheetah = True
     vars = copy.deepcopy(BaseTemplate.vars)

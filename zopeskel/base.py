@@ -68,14 +68,17 @@ class BaseTemplate(templates.Template):
     use_local_commands = False
     
     vars = [
-        BooleanVar('expert_mode', 
-                   'Would you like to run zopeskel in expert mode?', 
-                   False, title="Expert Mode?",
-                   help="""
+        BooleanVar(
+            'expert_mode', 
+            title='Expert Mode?',
+            description='Would you like to run zopeskel in expert mode?', 
+            page='Main',
+            default='False',
+            help="""
 In Expert Mode, you will be asked to answer a larger
 number of questions during this setup process.  Most
 users should not run in expert mode.
-                   """),
+"""),
     ]
 
     #this is just to be able to add ZopeSkel to the list of paster_plugins if
@@ -212,10 +215,8 @@ For more information: paster help COMMAND""" % print_commands
 
         result = converted_vars
 
-        package = vars["project"]
-        result['namespace_package'], result['package'] = package.split(".")
-        result['zip_safe']=False
-        result['zope2product']=True
+        #package = vars["project"]
+        #result['namespace_package'], result['package'] = package.split(".")
 
         return result
 
