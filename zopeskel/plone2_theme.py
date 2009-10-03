@@ -79,7 +79,7 @@ and the originals will now shine through.
 """
             ),
 
-    var('include_doc',
+    BooleanVar('include_doc',
         title='Include Documentation?',
         description="Include in-line documentation in generated code?",
         modes=(EASY, EXPERT),
