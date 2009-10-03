@@ -6,7 +6,17 @@ from zopeskel.base import var
 
 class Plone(BasicZope):
     _template_dir = 'templates/plone'
-    summary = "A Plone project"
+    summary = "A project for Plone products"
+    help = """
+This creates a Plone project (to create a Plone *site*, you probably
+want to use the one of the templates for a buildout).
+
+This template expects a name in the form 'Products.MyProduct' or 
+'mycompany.myproject' (1 dot, a 'basic namespace'). To create a Plone
+project with a name like 'plone.app.myproject' (2 dots, a 'nested
+namespace'), use the 'plone_app' template. You cannot have a flat package 
+name (no dots, 'myproduct').
+"""
     required_templates = ['basic_namespace']
     use_local_commands = True
     use_cheetah = True

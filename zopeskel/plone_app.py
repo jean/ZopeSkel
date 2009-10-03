@@ -7,7 +7,16 @@ from zopeskel.basic_zope import VAR_ZOPE2
 
 class PloneApp(NestedNamespace):
     _template_dir = 'templates/plone_app'
-    summary = "A Plone App project"
+    summary = "A project for Plone products with a nested namespace (2 dots in name)"
+    help = """
+This creates a Plone project (to create a Plone *site*, you probably
+want to use the one of the templates for a buildout).
+
+This template expects a name in the form 'plone.app.myproject' (2 dots, a 
+'nested namespace'). To create a Plone project with a name like 
+'mycompany.myproject' (1 dots, a 'basic namespace'), use the 'plone' 
+template. You cannot have a flat package name (no dots, 'myproduct').
+"""
     required_templates = ['nested_namespace']
     use_cheetah = True
 

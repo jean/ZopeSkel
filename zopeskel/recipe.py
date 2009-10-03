@@ -7,6 +7,11 @@ class Recipe(NestedNamespace):
     """A template for buildout recipes"""
     _template_dir = 'templates/recipe'
     summary = "A recipe project for zc.buildout"
+    help = """
+This creates a buildout recipe.
+
+It expects a nested namespace name (2 dots, 'company.recipe.myrecipe').
+"""
     required_templates = []
     use_cheetah = True
     vars = copy.deepcopy(NestedNamespace.vars)
