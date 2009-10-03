@@ -102,7 +102,7 @@ users should not run in expert mode.
             Unfortunately for us, at this stage in the process, the
             egg_info directory has not yet been created (and won't be
             within the scope of this template running [see
-            paste.script.create_distro.py]), so we're cannot show which
+            paste.script.create_distro.py]), so we cannot show which
             subtemplates are available.
             """
             plugins = pluginlib.resolve_plugins(['ZopeSkel'])
