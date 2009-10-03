@@ -226,3 +226,17 @@ For more information: paster help COMMAND""" % print_commands
 
         return result
 
+    @property
+    def pages(self):
+        pages = []
+        page_map = {}
+        for question in self.vars:
+            name = question.page
+            if name in page_map:
+                page = page_map[name]
+                page['vars'].append(question)
+            else:
+                page = {'name': name, 'vars': [question]}
+                pages.append(page)
+                page_map[name] = page
+        return pages
