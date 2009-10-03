@@ -9,6 +9,9 @@ from paste.script import templates
 from zopeskel.base import BadCommand
 from zopeskel.base import BaseTemplate
 from zopeskel.vars import var
+from zopeskel.plone3_buildout import (
+    VAR_Z2_INSTALL, VAR_ZOPE_USER, VAR_ZOPE_PASSWD, VAR_HTTP, 
+    VAR_DEBUG_MODE, VAR_VERBOSE_SEC )
 
 plone25s = {
         "2.5.5": "https://launchpad.net/plone/2.5/2.5.5/+download/Plone-2.5.5.tar.gz",
@@ -27,12 +30,51 @@ class StandardHosting(BaseTemplate):
 
     vars = copy.deepcopy(BaseTemplate.vars);
     vars = [
-            var("zope_password", "Initial Zope admin password", default="admin"),
-            var("base_port", "Base port number", default=8000),
-            var("proxy", "Install a proxy server", default="no"),
-            var("plone", "Plone version (2.5, 2.5.1, 3.0, 3.0.1, etc.)",
-                default="3.1.4"),
-            var("buildout", "Run buildout", default="yes"),
+
+        VAR_Z2_USER,
+        VAR_Z2_PASSWD, 
+
+        IntVar(
+            "base_port", 
+            title="Base Port #",
+            description="# to use as base for Zope/ZEO/proxy ports",
+            modes=(EASY, EXPERT),
+            page="Main",
+            default=8000,
+            help="""
+For standardization, rather than selecting ports for Zope, ZEO, and
+a proxy individually, these are tied together numerically.
+
+ZEO port   = Base + 0
+Proxy port = Base + 1
+HTTP port  = Base + 10
+""",
+            ),
+            
+        BooleanVar(
+            "proxy",
+            title="Install proxy server?",
+            description="Should a proxy server be installed?",
+            default=False,
+            # help=""" TODO.  """
+            ),
+
+        StringVar(
+            "plone",
+            title="Plone Version",
+            description="Version to install (2.5, 2.5.1, 3.0, 3.0.1, etc)",
+            default="3.1.4",
+            # help="TODO",
+            ),
+
+        BooleanVar(
+            "buildout",
+            title="Run Buildout?",
+            description="Should bin/buildout command be executed?",
+            default=True,
+            #help="""TODO""",
+            ),
+
             ]
 
     def _buildout(self, output_dir):
@@ -65,16 +107,10 @@ class StandardHosting(BaseTemplate):
     def check_vars(self, vars, cmd):
         result=super(StandardHosting, self).check_vars(vars, cmd)
 
-        try:
-            base_port=int(vars["base_port"])
-        except ValueError:
-            raise BadCommand("Illegal base port number: %s" % vars["base_port"])
-
+        base_port=result["base_port"]
         result["zeo_port"]=base_port
         result["proxy_port"]=base_port+1
         result["http_port"]=base_port+10
-        result["proxy"]=vars["proxy"].lower() in [ "yes", "true", "on" ]
-        result["buildout"]=vars["buildout"].lower() in [ "yes", "true", "on" ]
 
         self._checkPortAvailable(result["zeo_port"])
         self._checkPortAvailable(result["http_port"])
@@ -110,7 +146,7 @@ class StandardHosting(BaseTemplate):
         else:
             print "  Proxy port: disabled"
         print
-        print "  Zope admin user    :  admin"
+        print "  Zope admin user    :  %s" % vars["zope_user"]
         print "  Zope admin password:  %s" % vars["zope_password"]
 
 
