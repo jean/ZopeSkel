@@ -1,6 +1,7 @@
 import os
 import ConfigParser
 from ConfigParser import SafeConfigParser
+from paste.script import command
 from paste.script import pluginlib
 from paste.script import templates
 from paste.script.templates import var as base_var
@@ -48,7 +49,7 @@ def get_var(vars, name):
 
 
 def update_setup_cfg(path, section, option, value):
-    
+
     parser = ConfigParser.ConfigParser()
     if os.path.exists(path):
         parser.read(path)
@@ -63,15 +64,15 @@ def update_setup_cfg(path, section, option, value):
 class BaseTemplate(templates.Template):
     """Base template for all ZopeSkel templates"""
 
-    #a zopeskel template has to set this to True if it wants to use 
+    #a zopeskel template has to set this to True if it wants to use
     #localcommand
     use_local_commands = False
-    
+
     vars = [
         BooleanVar(
-            'expert_mode', 
+            'expert_mode',
             title='Expert Mode?',
-            description='Would you like to run zopeskel in expert mode?', 
+            description='Would you like to run zopeskel in expert mode?',
             page='Main',
             default='False',
             help="""
@@ -82,13 +83,13 @@ users should not run in expert mode.
     ]
 
     #this is just to be able to add ZopeSkel to the list of paster_plugins if
-    #the use_local_commands is set to true and to write a zopeskel section in 
-    #setup.cfg file containing the name of the parent template. 
-    #it will be used by addcontent command to list the apropriate subtemplates 
-    #for the generated project. the post method is not a candidate because 
+    #the use_local_commands is set to true and to write a zopeskel section in
+    #setup.cfg file containing the name of the parent template.
+    #it will be used by addcontent command to list the apropriate subtemplates
+    #for the generated project. the post method is not a candidate because
     #many templates override it
     def run(self, command, output_dir, vars):
-        
+
         if self.use_local_commands and 'ZopeSkel' not in self.egg_plugins:
             self.egg_plugins.append('ZopeSkel')
 
@@ -101,7 +102,7 @@ users should not run in expert mode.
     def print_subtemplate_notice(self, output_dir=None):
             """Print a notice about local commands begin availabe (if this is
             indeed the case).
-    
+
             Unfortunately for us, at this stage in the process, the
             egg_info directory has not yet been created (and won't be
             within the scope of this template running [see
@@ -138,7 +139,7 @@ For more information: paster help COMMAND""" % print_commands
         if self.use_local_commands:
             self.print_subtemplate_notice()
         templates.Template.post(self, *args, **kargs)
-        
+
     def _filter_for_modes(self, expert_mode, expected_vars):
         """ given the boolean 'expert_mode' and a list of expected vars,
             return a dict of vars to be hidden from view
@@ -148,19 +149,19 @@ For more information: paster help COMMAND""" % print_commands
             # if in expert mode, hide vars not for expert mode
             if expert_mode and EXPERT not in var.modes:
                 hidden[var.name] = 1
-            
+
             if not expert_mode and EASY not in var.modes:
                 hidden[var.name] = 1
-            
+
         return hidden
 
     def check_vars(self, vars, cmd):
         # Copied and modified from PasteScript's check_vars--
         # the method there wasn't hookable for the things
         # we need -- question posing, validation, etc.
-        # 
+        #
         # Admittedly, this could be merged into PasteScript,
-        # but it was decided it was easier to limit scope of 
+        # but it was decided it was easier to limit scope of
         # these changes to ZopeSkel, as other projects may
         # use PasteScript in very different ways.
 
