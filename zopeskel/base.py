@@ -178,12 +178,17 @@ For more information: paster help COMMAND""" % print_commands
         errors = []
 
         config = get_zopeskel_prefs()
-        TEMPLATE_WERE_IN = "plone3_theme" # XXX TODO: totally fake; need to figure out
+        # pastescript allows one to request more than one template (multiple
+        # -t options at the command line) so we will get a list of templates
+        # from the cmd's options property
+        requested_templates = cmd.options.templates
 
         for var in expect_vars:
             if var.name not in unused_vars:
-                if config.has_option(TEMPLATE_WERE_IN, var.name):
-                    var.default = config.get(TEMPLATE_WERE_IN, var.name)
+                for template in requested_templates:
+                    if config.has_option(template, var.name):
+                        var.default = config.get(template, var.name)
+                        break
                 if cmd.interactive:
                     prompt = var.pretty_description()
                     response = None
