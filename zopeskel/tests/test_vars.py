@@ -2,7 +2,8 @@
 
 import unittest
 
-from zopeskel.vars import var, BooleanVar, StringVar, TextVar, DottedVar
+from zopeskel.vars import var, BooleanVar, StringVar, TextVar, DottedVar,\
+    OnOffVar, IntVar
 from zopeskel.vars import ValidationException
 
 class test_var(unittest.TestCase):
@@ -51,21 +52,48 @@ class test_BooleanVar(unittest.TestCase):
     def testValidation(self):
         """ check to see that various inputs result in a Boolean Value
         """
-        self.failIf(self.bvar.validate('f'))
-        self.failIf(self.bvar.validate('F'))
-        self.failIf(self.bvar.validate('n'))
-        self.failIf(self.bvar.validate('N'))
-        self.failIf(self.bvar.validate('false'))
-        self.failIf(self.bvar.validate(0))
+        for val in ('f','F','n','N','false',0):
+            self.failIf(self.bvar.validate(val))
         
-        self.failUnless(self.bvar.validate('t'))
-        self.failUnless(self.bvar.validate('T'))
-        self.failUnless(self.bvar.validate('y'))
-        self.failUnless(self.bvar.validate('Y'))
-        self.failUnless(self.bvar.validate('true'))
-        self.failUnless(self.bvar.validate(1))
+        for val in ('t','T','y','Y','true',1):
+            self.failUnless(self.bvar.validate(val))
         
-        self.assertRaises(ValidationException, self.bvar.validate, 'humpty-dumpty')
+        self.assertRaises(ValidationException, self.bvar.validate, 'humpty-dumpty')    
+
+
+class test_OnOffVar(unittest.TestCase):
+    """ verify functionality of the OnOffVar variable class
+    """
+    def setUp(self):
+        self.ovar = OnOffVar('name', 'description')
+
+    def testValidation(self):
+        """ check to see that various inputs result in a Boolean Value
+        """
+        for val in ('f','F','n','N','false',0,'off'):
+            self.assertEqual(self.ovar.validate(val), 'off')
+        
+        for val in ('t','T','y','Y','true',1,'on'):
+            self.assertEqual(self.ovar.validate(val), 'on')
+        
+        self.assertRaises(ValidationException, self.ovar.validate, 'lunchbox')
+
+
+class test_IntVar(unittest.TestCase):
+    """ verify functionality of the IntVar variable class
+    """
+    def setUp(self):
+        self.ivar = IntVar('name', 'description')
+    
+    def testValidation(self):
+        """ an IntVar should take values that can be cast to an integer,
+            any other value should raise a ValidationException
+        """
+        self.assertEqual(1, self.ivar.validate(1))
+        self.assertEqual(1, self.ivar.validate(1.9))
+        self.assertEqual(1, self.ivar.validate('1'))
+        
+        self.assertRaises(ValidationException, self.ivar.validate, 'one')
 
 
 class test_StringVar(unittest.TestCase):
@@ -127,6 +155,8 @@ def test_suite():
     suite = unittest.TestSuite([
         unittest.makeSuite(test_var),
         unittest.makeSuite(test_BooleanVar),
+        unittest.makeSuite(test_OnOffVar),
+        unittest.makeSuite(test_IntVar),
         unittest.makeSuite(test_StringVar),
         unittest.makeSuite(test_TextVar),
         unittest.makeSuite(test_DottedVar),

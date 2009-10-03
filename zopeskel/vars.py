@@ -113,8 +113,9 @@ class OnOffVar(StringVar):
 
         return value
 
+
 class IntVar(var):
-    """'On' or 'Off' text values."""
+    """Integer values"""
 
     _default_widget = 'string'
 
