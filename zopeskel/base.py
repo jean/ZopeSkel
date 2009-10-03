@@ -9,6 +9,7 @@ from paste.script.templates import BasicPackage
 from zopeskel.vars import var, BooleanVar
 from zopeskel.vars import EASY, EXPERT
 
+
 LICENSE_CATEGORIES = {
     'DFSG' : 'License :: DFSG approved',
     'EFS' : 'License :: Eiffel Forum License (EFL)',
@@ -24,6 +25,19 @@ LICENSE_CATEGORIES = {
     'QPL' : 'License :: OSI Approved :: Qt Public License (QPL)',
     'ZPL' : 'License :: OSI Approved :: Zope Public License',
     }
+
+def get_zopeskel_prefs():
+    # http://snipplr.com/view/7354/get-home-directory-path--in-python-win-lin-other/
+    try:
+        from win32com.shell import shellcon, shell
+        homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+    except ImportError: # quick semi-nasty fallback for non-windows/win32com case
+        homedir = os.path.expanduser("~")
+
+    # Get defaults from .zopeskel
+    config = SafeConfigParser()
+    config.read('%s/.zopeskel' % homedir)
+    return config
 
 def get_var(vars, name):
     for var in vars:
@@ -159,9 +173,7 @@ For more information: paster help COMMAND""" % print_commands
         unused_vars = vars.copy()
         errors = []
 
-        # Get defaults from .zopeskel
-        config = SafeConfigParser()
-        config.read('/tmp/.zopeskel')  # XXX TODO: get from home, safely
+        config = get_zopeskel_prefs()
         TEMPLATE_WERE_IN = "plone3_theme" # XXX TODO: totally fake; need to figure out
 
         for var in expect_vars:

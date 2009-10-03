@@ -20,7 +20,7 @@ class var(base_var):
     def __init__(self, name, description,
                  default='', should_echo=True,
                  title=None, help=None, widget=None,
-                 modes=(EASY, EXPERT)):
+                 modes=(EASY, EXPERT), page='Main'):
         self.name = name
         self.description = description
         self.default = default
@@ -32,6 +32,7 @@ class var(base_var):
         else:
             self.widget = widget
         self.modes = modes
+        self.page = page
 
     def pretty_description(self):
         title = getattr(self, 'title', self.name) or self.name
