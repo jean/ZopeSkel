@@ -86,6 +86,22 @@ class StringVar(var):
 
         return value
 
+class StringChoiceVar(var):
+    """Choice of strings."""
+
+    _default_widget = 'select'
+
+    def __init__(self, *args, **kwargs):
+        self.choices = kwargs['choices']
+        del kwargs['choices']
+        super(StringChoiceVar, self).__init__(*args, **kwargs)
+
+    def validate(self, value):
+        value = value.strip()
+        if not value in self.choices:
+            raise ValidationException("Not a valid value: %s" % value)
+
+        return value
 
 class TextVar(StringVar):
     """Multi-line values."""

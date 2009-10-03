@@ -18,7 +18,7 @@ You should enter the version number you wish to use.
 VAR_Z2_INSTALL = StringVar(
     'zope2_install',
     title='Zope2 Install Path',
-    description='Path to Zope2 installation; leave blank to fetch one',
+    description='Path to Zope2 installation; leave blank to fetch one!',
     default='',
     modes=(EASY,EXPERT),
     page='Main',
@@ -79,7 +79,8 @@ VAR_HTTP = IntVar(
     page='Main',
     help="""
 This options lets you select the port # that Zope will use for serving
-HTTP."""
+HTTP.
+"""
     )
 
 VAR_DEBUG_MODE = OnOffVar(

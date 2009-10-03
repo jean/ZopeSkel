@@ -1,33 +1,41 @@
 from zopeskel.base import BaseTemplate
-from zopeskel.base import var
+from zopeskel.base import var, EASY, EXPERT
+from zopeskel.vars import StringVar
+from zopeskel.plone3_buildout import (
+    VAR_Z2_INSTALL, VAR_ZOPE_USER, VAR_ZOPE_PASSWD, VAR_HTTP, 
+    VAR_DEBUG_MODE, VAR_VERBOSE_SEC )
+
 
 class Zope2Buildout(BaseTemplate):
     _template_dir = 'templates/zope2_buildout'
-    summary = "A buildout to create a blank Zope 2 instance"
+    summary = "A buildout for a blank (non-Silva, non-Plone) Zope 2 instance"
+    help = """
+This template creates a buildout that does not contain Plone or Silva
+information. It is intended for people using Zope 2 directly. If you
+would like to use Plone or Silva, you should use the appropriate buildouts.
+"""
     required_templates = []
     use_cheetah = True
 
     vars = [
-        var('zope2_install',
-            'Path to Zope 2 installation; leave blank to fetch one',
-            default=''),
-        var('zope2_version',
-                'Zope 2 version to fetch, if needed',
-                default='2.11.1'),
-        var('zope_user',
-            'Zope root admin user',
-            default='admin'),
-        var('zope_password',
-            'Zope root admin password'),
-        var('http_port',
-            'HTTP port',
-            default=8080),
-        var('debug_mode',
-            'Should debug mode be "on" or "off"?',
-            default='off'),
-        var('verbose_security',
-            'Should verbose security be "on" or "off"?',
-            default='off'),
+        VAR_Z2_INSTALL,
+        StringVar(
+            'zope2_version',
+            title='Zope 2 Version',
+            description='Version of Zope 2 to fetch, if needed',
+            modes=(EASY, EXPERT),
+            page='Main',
+            default='2.11.1',
+            help="""
+If a version of Zope needs to be pulled down, this option lets you
+specify the version.
+"""
+            ),
+        VAR_ZOPE_USER,
+        VAR_ZOPE_PASSWD,
+        VAR_HTTP,
+        VAR_DEBUG_MODE,
+        VAR_VERBOSE_SEC,
         ]
 
     def post(self, command, output_dir, vars):

@@ -1,4 +1,5 @@
 import os
+from textwrap import TextWrapper
 import ConfigParser
 from ConfigParser import SafeConfigParser
 from paste.script import command
@@ -27,6 +28,15 @@ LICENSE_CATEGORIES = {
     'QPL' : 'License :: OSI Approved :: Qt Public License (QPL)',
     'ZPL' : 'License :: OSI Approved :: Zope Public License',
     }
+
+
+def wrap_help_paras(wrapper, text):
+    """Given a string containing embedded paras, output wrapped"""
+
+    for idx, para in enumerate(text.split("\n\n")):
+        if idx:
+            print
+        print wrapper.fill(para)
 
 def get_zopeskel_prefs():
     # http://snipplr.com/view/7354/get-home-directory-path--in-python-win-lin-other/
@@ -170,6 +180,11 @@ For more information: paster help COMMAND""" % print_commands
 
         cmd._deleted_once = 1      # don't re-del package
 
+        textwrapper = TextWrapper(
+                initial_indent="|  ",
+                subsequent_indent="|  ",
+                )
+
         if cmd.verbose and hasattr(self, 'help'):
             print self.help
 
@@ -200,7 +215,10 @@ For more information: paster help COMMAND""" % print_commands
                     while response is self.null_value_marker:
                         response = cmd.challenge(prompt, var.default, var.should_echo)
                         if response == '?':
-                            print var.further_help()
+                            help = var.further_help().strip() % converted_vars
+                            print
+                            wrap_help_paras(textwrapper, help)
+                            print
                             response = self.null_value_marker;
                         if response is not self.null_value_marker:
                             try:
