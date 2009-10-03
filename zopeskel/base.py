@@ -182,13 +182,14 @@ For more information: paster help COMMAND""" % print_commands
                                   % var.full_description())
                 else:
                     converted_vars[var.name] = var.default
+            else:
+                converted_vars[var.name] = unused_vars.pop(var.name)
+
             # filter the vars for mode.
             if var.name == 'expert_mode':
                 expert_mode = converted_vars['expert_mode']
-                hidden = self._filter_for_modes(expert_mode, expected_vars)
+                hidden = self._filter_for_modes(expert_mode, expect_vars)
                 unused_vars.update(hidden)
-            else:
-                converted_vars[var.name] = unused_vars.pop(var.name)
 
 
         if errors:

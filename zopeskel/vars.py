@@ -19,7 +19,7 @@ class var(base_var):
 
     def __init__(self, name, description,
                  default='', should_echo=True,
-                 title=None, help=None,
+                 title=None, help=None, widget=None,
                  modes=(EASY, EXPERT)):
         self.name = name
         self.description = description
