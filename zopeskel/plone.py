@@ -1,10 +1,10 @@
 import copy
 
-from zopeskel.basic_namespace import BasicNamespace
+from zopeskel.basic_zope import BasicZope
 from zopeskel.base import get_var
 from zopeskel.base import var
 
-class Plone(BasicNamespace):
+class Plone(BasicZope):
     _template_dir = 'templates/plone'
     summary = "A Plone project"
     required_templates = ['basic_namespace']
@@ -13,16 +13,8 @@ class Plone(BasicNamespace):
     vars = copy.deepcopy(BasicNamespace.vars)
     get_var(vars, 'namespace_package').default = 'plone'
     get_var(vars, 'package').default = 'example'
-    vars.insert(2, var('zope2product',
-                       'Are you creating a Zope 2 Product?',
-                       default=False, title='Zope2 Product?',
-                       help="""
-Zope2 products are those meant to be used with
-the Zope2 application server. This will normally be all Plone
-products."""
-                       ))
-    get_var(vars, 'author').default = 'Plone Foundation'
-    get_var(vars, 'author_email').default = 'plone-developers@lists.sourceforge.net'
+    get_var(vars, 'author').default = ''
+    get_var(vars, 'author_email').default = ''
     get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/plone.example'
 
 
