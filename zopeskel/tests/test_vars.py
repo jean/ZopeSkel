@@ -2,8 +2,8 @@
 
 import unittest
 
-from zopeskel.base import var, BooleanVar, StringVar, TextVar, DottedVar
-from zopeskel.base import ValidationException
+from zopeskel.vars import var, BooleanVar, StringVar, TextVar, DottedVar
+from zopeskel.vars import ValidationException
 
 class test_var(unittest.TestCase):
     """ test that there is no default implementation of the validation method
@@ -20,6 +20,26 @@ class test_var(unittest.TestCase):
             pass
         else:
             self.fail("The validation method should not be implemented on the basic var class")
+    
+    def testPrettyDescription(self):
+        """ pretty_description should return a nice combination of title or name
+            and description
+        """
+        self.assertEqual(self.var.pretty_description(), 'name (description)')
+        
+        self.var.title = 'title'
+        self.assertEqual(self.var.pretty_description(), 'title (description)')
+        
+    def testFurtherHelp(self):
+        """ further_help will return the extensive help string set for a var
+            or a default 'nothing to see here' string
+        """
+        default = "Sorry, no further help is available for name\n"
+        self.assertEqual(self.var.further_help(), default)
+        
+        self.var.help = "I'm a little help text, short and stout"
+        self.assertEqual(self.var.further_help(), 
+                         "I'm a little help text, short and stout")
 
 
 class test_BooleanVar(unittest.TestCase):
