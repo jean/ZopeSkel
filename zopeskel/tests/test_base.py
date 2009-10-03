@@ -2,7 +2,7 @@
 
 import unittest
 
-from zopeskel.base import BaseTemplate
+from zopeskel.base import BaseTemplate, get_var
 from zopeskel.vars import var, BooleanVar, StringVar, TextVar, DottedVar
 from zopeskel.vars import EXPERT, EASY
 
@@ -55,7 +55,17 @@ class test_base_template(unittest.TestCase):
         for varname in hidden.keys():
             self.failUnless(varname in expert_vars, 
                             "missing expert var: %s" % varname)
-            
+    
+    def test_get_vars(self):
+        """ get_vars is not a method of BaseTemplate, but we've got a nice set
+            of variables all set up in here, so let's use it
+        """
+        var = get_var(self.vars, 'basic_var')
+        self.assertEqual(var.name, 'basic_var')
+        self.assertEqual(var.title, 'Basic Title')
+        self.assertEqual(var.description, 'This is a basic variable')
+        self.assertEqual(var.modes, (EXPERT, EASY))
+        self.assertEqual(var.default, 'foo')
 
 
 def test_suite():
