@@ -93,6 +93,40 @@ class TextVar(StringVar):
     _default_widget = 'text'
 
 
+class OnOffVar(StringVar)
+    """'On' or 'Off' text values."""
+
+    _default_widget = 'onoff'
+
+    def validate(self, value):
+        #Get rid of bonus whitespace
+        if isinstance(value, basestring):
+            value = value.strip().lower()
+
+        #Map special cases to correct values.
+        if value in ['t', 'y', 'yes', 'true', 1, 'on']: 
+            value = 'on'
+        elif value in ['f','n','no', 'false', 0, 'off']:
+            value = 'off'
+        else:
+            raise ValidationException("Not a valid on/off value: %s" % value)
+
+        return value
+
+class IntVar(var)
+    """'On' or 'Off' text values."""
+
+    _default_widget = 'string'
+
+    def validate(self, value):
+        try:
+            value = int(value)
+        except ValueError:
+            raise ValidationException("Not a valid int: %s" % value)
+
+        return value
+
+
 class DottedVar(var):
     """Variable for 'dotted Python name', eg, 'foo.bar.baz'"""
 
