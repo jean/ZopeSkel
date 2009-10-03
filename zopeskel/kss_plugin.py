@@ -15,8 +15,8 @@ This creates a project for a KSS plugins ('Kinetic Style Sheets', a
 Plone 3 framwork for JavaScript/AJAX).
 
 This template expects a name in the form 'mycompany.kss.example'
-(a 'nested namespace'); you cannot have a flat package name ('myproduct') 
-or a single namespace ('mycompany.product').
+(2 dot, a 'nested namespace'); you cannot have a flat package name 
+(no dots, 'myproduct') or a single namespace (1 dot, 'mycompany.product').
 """
 
     required_templates = []

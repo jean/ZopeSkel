@@ -25,7 +25,15 @@ name like (for Plone products) 'collective'.
 
 class NestedNamespace(BasicNamespace):
     _template_dir = 'templates/nested_namespace'
-    summary = "A project with two nested namespaces."
+    summary = "A basic Python project with two nested namespaces"
+    help = """
+This creates a Python project without any Zope or Plone features.
+
+This template expects a name in the form 'mycompany.myapp.myproject'
+(2 dots). To have a flat package name (no dots, 'myproject'), use the 
+'basic_package' template. To use a a single namespace (1 dot, 
+'mycompany.project'), use the 'basic_namespace' template.
+"""
     required_templates = []
     use_cheetah = True
 
