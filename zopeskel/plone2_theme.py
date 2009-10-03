@@ -97,7 +97,19 @@ It is recommend you leave this on.
 
 class Plone2Theme(BaseTemplate):
     _template_dir = 'templates/plone2_theme'
-    summary = "A Theme Product for Plone 2.1 & Plone 2.5"
+    summary = "A theme for Plone 2.1"
+    help = """
+This creates a project for a theme for Plone 2.1.
+
+This is not an egg, but a classic Product, and therefore is usable in
+Plone 2.1. This product should also work, without changes, in Plone
+2.5, though you may prefer to use the 'plone25_theme' template for
+this, as this will build an eggified Plone 2 theme.
+
+This template expects a name that is just the name of a classic
+product--a legal Python identifer without any dots in the name.
+"""
+
     use_cheetah = True
 
     vars = copy.deepcopy(BasicPackage.vars)

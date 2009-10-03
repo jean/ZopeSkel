@@ -168,6 +168,9 @@ For more information: paster help COMMAND""" % print_commands
 
         cmd._deleted_once = 1      # don't re-del package
 
+        if cmd.verbose and hasattr(self, 'help'):
+            print self.help
+
         # now, mostly copied direct from paster
         expect_vars = self.read_vars(cmd)
         if not expect_vars:

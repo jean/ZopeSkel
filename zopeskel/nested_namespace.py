@@ -25,7 +25,7 @@ name like (for Plone products) 'collective'.
 
 class NestedNamespace(BasicNamespace):
     _template_dir = 'templates/nested_namespace'
-    summary = "A basic Python project with two nested namespaces"
+    summary = "A basic Python project with a nested namespace (2 dots in name)"
     help = """
 This creates a Python project without any Zope or Plone features.
 
