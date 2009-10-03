@@ -9,6 +9,7 @@ from paste.script.command import BadCommand
 from paste.script.templates import BasicPackage
 from zopeskel.vars import var, BooleanVar
 from zopeskel.vars import EASY, EXPERT
+from zopeskel.vars import ValidationException
 
 
 LICENSE_CATEGORIES = {
@@ -67,6 +68,7 @@ class BaseTemplate(templates.Template):
     #a zopeskel template has to set this to True if it wants to use
     #localcommand
     use_local_commands = False
+    null_value_marker = []
 
     vars = [
         BooleanVar(
@@ -194,12 +196,18 @@ For more information: paster help COMMAND""" % print_commands
                         break
                 if cmd.interactive:
                     prompt = var.pretty_description()
-                    response = None
-                    while response is None:
+                    response = self.null_value_marker
+                    while response is self.null_value_marker:
                         response = cmd.challenge(prompt, var.default, var.should_echo)
                         if response == '?':
                             print var.further_help()
-                            response = None;
+                            response = self.null_value_marker;
+                        if response is not self.null_value_marker:
+                            try:
+                                response = var.validate(response)
+                            except ValidationException, e:
+                                print e
+                                response = self.null_value_marker;
                     converted_vars[var.name] = response
                 elif var.default is command.NoDefault:
                     errors.append('Required variable missing: %s'
