@@ -7,8 +7,8 @@ import copy
 
 from paste.script import templates
 from zopeskel.base import BadCommand
-from zopeskel.base import BaseTemplate
-from zopeskel.vars import var
+from zopeskel.base import BaseTemplate, EASY, EXPERT
+from zopeskel.vars import var, IntVar, BooleanVar, StringVar
 from zopeskel.plone3_buildout import (
     VAR_Z2_INSTALL, VAR_ZOPE_USER, VAR_ZOPE_PASSWD, VAR_HTTP, 
     VAR_DEBUG_MODE, VAR_VERBOSE_SEC )
@@ -31,8 +31,8 @@ class StandardHosting(BaseTemplate):
     vars = copy.deepcopy(BaseTemplate.vars);
     vars = [
 
-        VAR_Z2_USER,
-        VAR_Z2_PASSWD, 
+        VAR_ZOPE_USER,
+        VAR_ZOPE_PASSWD, 
 
         IntVar(
             "base_port", 
