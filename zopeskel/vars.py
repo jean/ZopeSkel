@@ -93,7 +93,7 @@ class TextVar(StringVar):
     _default_widget = 'text'
 
 
-class OnOffVar(StringVar)
+class OnOffVar(StringVar):
     """'On' or 'Off' text values."""
 
     _default_widget = 'onoff'
@@ -113,7 +113,7 @@ class OnOffVar(StringVar)
 
         return value
 
-class IntVar(var)
+class IntVar(var):
     """'On' or 'Off' text values."""
 
     _default_widget = 'string'
