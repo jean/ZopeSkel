@@ -186,6 +186,30 @@ def list_printable_templates():
 
     return common, advanced
 
+def process_args():
+    """ return a tuple of template_name, output_name and everything else
+    
+        everything else will be returned as a dictionary of key/value pairs
+    """
+    args = sys.argv[1:]
+    try:
+        template_name = args.pop(0)
+    except IndexError:
+        raise SyntaxError('No template name provided')
+    output_name = None
+    others = {}
+    for arg in args:
+        eq_index = arg.find('=')
+        if eq_index == -1 and not output_name:
+            output_name = arg
+        elif eq_index > 0:
+            key, val = arg.split('=')
+            others[key] = val
+        else:
+            raise SyntaxError(arg)
+
+    return template_name, output_name, others
+
 def run():
     """ """
 
@@ -196,8 +220,12 @@ def run():
     if len(sys.argv) == 1:
         usage()
         return
-
-    template_name = sys.argv[1]
+    
+    try:
+        template_name, output_name, opts = process_args()
+    except SyntaxError, e:
+        print "Error: There was a problem with your arguments: %s\n" % e
+    
     rez = pkg_resources.iter_entry_points(
             'paste.paster_create_template',
             template_name)
@@ -212,10 +240,11 @@ def run():
     print "\n%s: %s" % (template_name, template.summary)
     print template.help
 
-    name = "foo.bar" # opts['name']
-    optslist = [] # [ '%s=%s' % (k,v) for k, v in opts.items() ]
+    optslist = [ '%s=%s' % (k,v) for k, v in opts.items() ]
+    if output_name is not None:
+        optslist.insert(0, output_name)
     create = get_commands()['create'].load()
-    #create('create').run( [ '-t', template_name, name ] + optslist )
-    create('create').run( [ '-t', template_name, name ] + optslist )
+    
+    create('create').run( [ '-t', template_name ] + optslist )
 
 
