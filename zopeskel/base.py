@@ -160,10 +160,10 @@ For more information: paster help COMMAND""" % print_commands
         for var in expected_vars:
             # if in expert mode, hide vars not for expert mode
             if expert_mode and EXPERT not in var.modes:
-                hidden[var.name] = 1
+                hidden[var.name] = var.default
 
             if not expert_mode and EASY not in var.modes:
-                hidden[var.name] = 1
+                hidden[var.name] = var.default
 
         return hidden
 
@@ -199,13 +199,20 @@ For more information: paster help COMMAND""" % print_commands
         # -t options at the command line) so we will get a list of templates
         # from the cmd's options property
         requested_templates = cmd.options.templates
+        for var in expect_vars:
+            for template in requested_templates:
+                if config.has_option(template, var.name):
+                    var.default = config.get(template, var.name)
+                    break
+            else:
+                # Not found in template section, now look explicitly
+                # in DEFAULT section
+                if config.has_option('DEFAULT', var.name):
+                    var.default = config.get('DEFAULT', var.name)
+
 
         for var in expect_vars:
             if var.name not in unused_vars:
-                for template in requested_templates:
-                    if config.has_option(template, var.name):
-                        var.default = config.get(template, var.name)
-                        break
                 if cmd.interactive:
                     prompt = var.pretty_description()
                     response = self.null_value_marker
