@@ -18,9 +18,6 @@ This create a Plone project for a portlet.
     vars = copy.deepcopy(PloneApp.vars)
     get_var(vars, 'namespace_package').default = 'collective'
     get_var(vars, 'namespace_package2').default = 'portlet'
-    get_var(vars, 'author').default = ''
-    get_var(vars, 'author_email').default = ''
-    get_var(vars, 'url').default = 'http://plone.org'
     vars.append(
         StringVar(
             'portlet_name',
@@ -58,5 +55,6 @@ generated GenericSetup profile.
                                             vars['namespace_package2'],
                                             vars['package'])
 
+        super(Plone3Portlet, self).pre(command, output_dir, vars)
 
 

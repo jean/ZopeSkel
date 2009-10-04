@@ -44,6 +44,7 @@ This template creates an installation of Silva
         print
         print "See README.txt for details"
         print "-----------------------------------------------------------"
+        super(SilvaBuildout, self).post(command, output_dir, vars)
 
 
 

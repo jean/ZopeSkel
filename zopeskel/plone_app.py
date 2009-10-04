@@ -19,8 +19,5 @@ a 'basic namespace'), use the 'plone' template instead.
     use_cheetah = True
 
     vars = copy.deepcopy(NestedNamespace.vars)
-    vars.insert(4, VAR_ZOPE2) 
-    get_var(vars, 'author').default = ''
-    get_var(vars, 'author_email').default = ''
-    get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/plone.app.example'
+    vars.insert(4, VAR_ZOPE2)   # "is this a Zope2 product?"
 

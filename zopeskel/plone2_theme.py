@@ -115,9 +115,6 @@ product--a legal Python identifer without any dots in the name.
 
     vars = copy.deepcopy(BasicPackage.vars)
     get_var(vars, 'description').default = 'An installable theme for Plone'
-    get_var(vars, 'author').default = ''
-    get_var(vars, 'author_email').default = ''
-    get_var(vars, 'url').default = 'http://svn.plone.org/svn/collective/'
     get_var(vars, 'keywords').default = 'web zope plone theme'
     vars = theme_vars + vars[:3] + vars[4:6]
 

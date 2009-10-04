@@ -14,6 +14,11 @@ This creates a Plone project that uses Archetypes content types.
 It has local commands that will allow you to add content types
 and to add fields to your new content types.
 """
+    post_run_msg = """
+There is a local command to add individual Archetype content types
+and to add fields to those content types. See the instructions above
+on how to use this command.
+"""
 
     required_templates = ['plone']
     use_cheetah = True

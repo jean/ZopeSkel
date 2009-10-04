@@ -9,3 +9,8 @@ class Plone25Buildout(Plone3Buildout):
 
     vars = copy.deepcopy(Plone3Buildout.vars)
     get_var(vars, 'plone_version').default = "2.5.5"
+
+    # The Plone3Buildout has an appropriate "use-the-installer"
+    # message, but this wouldn't be right here, so let's
+    # override it.
+    pre_run_msg = "" 

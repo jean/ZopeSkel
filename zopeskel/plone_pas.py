@@ -16,10 +16,8 @@ system') plugin.
 
     vars = copy.deepcopy(NestedNamespace.vars)
     get_var(vars, 'namespace_package2').default = 'pas'
-    get_var(vars, 'author').default = ''
-    get_var(vars, 'author_email').default = ''
-    get_var(vars, 'url').default = 'http://svn.plone.org/svn/plone/pas.plugin.example'
 
     def pre(self, command, output_dir, vars):
       vars['multiplugin_name'] = vars['package'].title()
+      super(PlonePas, self).pre(command, output_dir, vars)
 

@@ -18,9 +18,6 @@ This creates a project for a theme for Plone 3.
     vars = copy.deepcopy(Plone.vars)
     get_var(vars, 'namespace_package').default = 'Products'
     get_var(vars, 'description').default = 'An installable theme for Plone 2.5'
-    get_var(vars, 'author').default = ''
-    get_var(vars, 'author_email').default = ''
-    get_var(vars, 'url').default = 'http://svn.plone.org/svn/collective/'
     get_var(vars, 'keywords').default = 'web zope plone theme'
     vars = vars[:3] + theme_vars + vars[3:]
 

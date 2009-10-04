@@ -16,6 +16,3 @@ This creates a project for a theme for Plone 3.
     vars = copy.deepcopy(Plone25Theme.vars)
     get_var(vars, 'namespace_package').default = 'plonetheme'
     get_var(vars, 'description').default = 'An installable theme for Plone 3'
-
-    def pre(self, command, output_dir, vars):
-        super(Plone3Theme, self).pre(command, output_dir, vars)

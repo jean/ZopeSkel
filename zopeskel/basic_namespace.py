@@ -140,6 +140,7 @@ PyPI, will be used to categorize the project).
             description='URL of the homepage for this project',
             modes=(), 
             page='Metadata',
+            default='http://svn.plone.org/svn/collective/',
             help="""
 This should be a URL for the homepage for this project (if applicable).
 It will be used in the egg's setup.py.

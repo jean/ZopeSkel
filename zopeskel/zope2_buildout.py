@@ -46,6 +46,7 @@ specify the version.
         print
         print "See README.txt for details"
         print "-----------------------------------------------------------"
+        super(Zope2Buildout, self).post(command, output_dir, vars)
 
 
 

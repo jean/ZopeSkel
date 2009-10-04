@@ -157,6 +157,7 @@ and run `python bootstrap.py` followed by `bin/buildout`.
         else:
             vars["plone_recipe"]="plone.recipe.plone25install"
             vars["plone_url"]=plone25s[plone]
+        super(StandardHosting, self).pre(command, output_dir, vars)
 
     def show_summary(self, vars):
         print
@@ -182,3 +183,4 @@ and run `python bootstrap.py` followed by `bin/buildout`.
             self._buildout(output_dir)
         if not vars.get("hide_summary", False):
             self.show_summary(vars)
+        super(StandardHosting, self).post(command, output_dir, vars)
