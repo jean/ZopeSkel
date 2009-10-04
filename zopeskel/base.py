@@ -162,11 +162,48 @@ For more information: paster help COMMAND""" % print_commands
     
     def pre(self, *args, **kwargs):
         templates.Template.pre(self, *args, **kwargs)
+        
+    def get_template_stack(self, command):
+        """ return a list of the template objects being run through in the given command
+        """
+        asked_tmpls = command.options.templates or ['basic_package']
+        templates = []
+        for tmpl_name in asked_tmpls:
+            command.extend_templates(templates, tmpl_name)
+        return [tmpl_obj for tmpl_name, tmpl_obj in templates]
+        
+    def get_position_in_stack(self, stack):
+        """ return the index of the currently running template in the overall stack
+        """
+        class_stack = [t.__class__ for t in stack]
+        
+        return class_stack.index(self.__class__)
+        
+    def should_print_subcommands(self, command):
+        """ return true or false
+        
+            if this template has subcommands _and_ is the last template
+            to be run through that does, go ahead and return true, otherwise
+            return false
+        """
+        if not getattr(self, 'use_local_commands', False):
+            return False
+        # we have local commands for this template, is it the last one for
+        # which this is true?  
+        stack = self.get_template_stack(command)
+        index = self.get_position_in_stack(stack)
+        remaining_stack = stack[index+1:]
+        have_subcommands_left = [getattr(t, 'use_local_commands', False) 
+                                 for t in remaining_stack]
+        if True in have_subcommands_left:
+            return False
+        
+        return True
     
-    def post(self, *args, **kargs):
-        if self.use_local_commands:
+    def post(self, command, output_dir, vars):
+        if self.should_print_subcommands(command):
             self.print_subtemplate_notice()
-        templates.Template.post(self, *args, **kargs)
+        templates.Template.post(self, command, output_dir, vars)
         # at the very end of it all, print the post_run_msg so we can 
         # inform users of important information.
         self.print_zopeskel_message('post_run_msg')
