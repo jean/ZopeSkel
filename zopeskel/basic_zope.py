@@ -27,11 +27,6 @@ class BasicZope(BasicNamespace):
     summary = "A Zope project"
     help = """
 This creates a Zope project without any specific Plone features.
-
-This template expects a name in the form 'mycompany.myproject'
-(1 dot, a 'basic namespace'); you cannot have a flat package name (no
-dots, 'myproduct') or a nested namespace (2 dots, 
-'collective.company.product')
 """
     required_templates = ['basic_namespace']
     use_cheetah = True

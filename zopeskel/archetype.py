@@ -13,11 +13,6 @@ class Archetype(Plone):
 This creates a Plone project that uses Archetypes content types.
 It has local commands that will allow you to add content types
 and to add fields to your new content types.
-
-This template expects a name in the form 'Products.MyProduct'
-or 'mycompany.myproduct' (a 'basic namespace'); you cannot have
-a flat package name ('myproduct') or a nested namespace
-('collective.company.product').
 """
 
     required_templates = ['plone']

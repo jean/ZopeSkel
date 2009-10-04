@@ -6,13 +6,9 @@ from zopeskel.base import EASY, EXPERT
 class BasicNamespace(BaseTemplate):
     _template_dir = 'templates/basic_namespace'
     summary = "A basic Python project with a namespace package"
+    ndots = 1
     help = """
 This creates a Python project without any Zope or Plone features.
-
-This template expects a name in the form 'mycompany.myproject'
-(1 dot). To have a flat package name (no dots, 'myproject'), use the 
-'basic_package' template. To use a nested namespace (2 dots, 
-'collective.company.project'), use the 'nested_namespace' template.
 """
 
     required_templates = []
@@ -35,7 +31,7 @@ the name of your company/project, or a common-style name like
 
 Note that, for some templates, there may be two namespaces, rather
 than one (to create eggs with names like 'plone.app.blog')--in this
-case, this would be 'app', the first of the enclosing namespaces.
+case, this would be 'plone', the first of the enclosing namespaces.
             """
             ), 
 

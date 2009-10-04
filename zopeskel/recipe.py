@@ -9,8 +9,6 @@ class Recipe(NestedNamespace):
     summary = "A recipe project for zc.buildout"
     help = """
 This creates a buildout recipe.
-
-It expects a nested namespace name (2 dots, 'company.recipe.myrecipe').
 """
     required_templates = []
     use_cheetah = True

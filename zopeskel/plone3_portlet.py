@@ -11,9 +11,6 @@ class Plone3Portlet(NestedNamespace):
     summary = "A Plone 3 portlet"
     help = """
 This create a Plone project for a portlet.
-
-It expects a nested namespace name (2 dots, like
-'company.portlets.myportlet').
 """
     required_templates = ['nested_namespace']
     use_cheetah = True

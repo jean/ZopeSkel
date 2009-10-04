@@ -11,8 +11,6 @@ class Plone25Theme(Plone):
     summary = "A theme for Plone 2.5"
     help = """
 This creates a project for a theme for Plone 3.
-
-It expects a single namespace name (1 dot, like 'plonetheme.mytheme').
 """
     required_templates = ['plone']
     use_cheetah = True

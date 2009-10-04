@@ -98,6 +98,7 @@ It is recommend you leave this on.
 class Plone2Theme(BaseTemplate):
     _template_dir = 'templates/plone2_theme'
     summary = "A theme for Plone 2.1"
+    ndots = 0
     help = """
 This creates a project for a theme for Plone 2.1.
 

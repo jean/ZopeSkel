@@ -114,6 +114,21 @@ plone IRC channel (#plone) at irc.freenode.net.
 To see the templates supported, run this script without any options.
 """
 
+DOT_HELP = {
+  0: """
+This template expects a project name with no dots in it (a simple
+Python package name, like 'foo').
+""",
+  1: """
+This template expects a project name with 1 dot in it (a 'basic 
+namespace', like 'foo.bar').
+""",
+  2: """
+This template expects a project name with 2 dots in it (a 'nested
+namespace', like 'foo.bar.baz').
+"""
+}
+
 def usage():
     common, uncommon = list_sorted_templates()
     print USAGE % (common, uncommon)
@@ -151,6 +166,6 @@ def run():
     optslist = [] # [ '%s=%s' % (k,v) for k, v in opts.items() ]
     create = get_commands()['create'].load()
     #create('create').run( [ '-t', template_name, name ] + optslist )
-    create('create').run( [ '-t', template_name ] + optslist )
+    create('create').run( [ '-t', template_name, name ] + optslist )
 
 

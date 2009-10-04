@@ -12,10 +12,8 @@ class PloneApp(NestedNamespace):
 This creates a Plone project (to create a Plone *site*, you probably
 want to use the one of the templates for a buildout).
 
-This template expects a name in the form 'plone.app.myproject' (2 dots, a 
-'nested namespace'). To create a Plone project with a name like 
-'mycompany.myproject' (1 dots, a 'basic namespace'), use the 'plone' 
-template. You cannot have a flat package name (no dots, 'myproduct').
+To create a Plone project with a name like 'mycompany.myproject' (1 dot,
+a 'basic namespace'), use the 'plone' template instead.
 """
     required_templates = ['nested_namespace']
     use_cheetah = True
