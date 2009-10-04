@@ -129,6 +129,33 @@ namespace', like 'foo.bar.baz').
 """
 }
 
+def checkdots(template, name):
+    """Check if project name appears legal, given template requirements.
+
+    Templates can provide number of namespaces they expect (provided
+    in 'ndots' attributes for number-of-dots in name). This checks that
+    provided project name is has correct number of namespaces and that
+    each part is a legal Python identifier.
+    """
+
+    ndots = getattr(template, 'ndots', None)
+    if ndots is None: return   # No validation possible
+
+    cdots = name.count(".")
+    if ndots != cdots:
+        raise ValueError(
+            "Project name expected %i dots, supplied '%s' has %i dots" % (
+                ndots, name, cdots))
+    for part in name.split("."):
+        # Check if Python identifier, http://code.activestate.com/recipes/413487/
+        try:
+            class test(object): __slots__ = [part]
+        except TypeError:
+            raise ValueError(
+                "Not a valid Python dotted name: %s ('%s' is not an identifier)" % (name, part))
+
+
+    
 def usage():
     common, uncommon = list_printable_templates()
     print USAGE % (common, uncommon)
