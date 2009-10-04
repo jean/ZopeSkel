@@ -120,7 +120,7 @@ This template expects a project name with no dots in it (a simple
 Python package name, like 'foo').
 """,
   1: """
-This template expects a project name with 1 dot in it (a 'basic 
+This template expects a project name with 1 dot in it (a 'basic
 namespace', like 'foo.bar').
 """,
   2: """
@@ -135,17 +135,6 @@ def usage():
 
 def help():
     print DESCRIPTION
-
-def _display_list_template(entry, max_name):
-    """
-    For a given entry point, returns string for displaying to console when
-    listing templates.
-    """
-    template = entry.load()
-    return "|  %s:%s %s\n" % (
-            name,
-            ' '*(max_name-len(entry.name)),
-            template.summary)
 
 def list_printable_templates():
     """
