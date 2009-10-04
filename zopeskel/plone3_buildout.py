@@ -136,6 +136,11 @@ deployment; if you turn it on, you should consider turning it off.
 class Plone3Buildout(BaseTemplate):
     _template_dir = 'templates/plone3_buildout'
     summary = "A buildout for Plone 3 installation"
+    help = """
+This template creates a Plone 3 buildout (for most users, a preferred
+way to get an installation of Plone 3 is to use the appropriate installer,
+as these are all buildout-based since Plone 3.1)
+"""
     pre_run_msg = """
 *** NOTE: You probably don't want to use this template!
 
