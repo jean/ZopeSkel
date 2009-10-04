@@ -13,9 +13,6 @@ Let's check the content::
     >>> package_dir = 'plone.example'
     >>> ls(package_dir)
     MANIFEST.in
-    Paste-...egg
-    PasteDeploy-...egg
-    PasteScript-...egg
     Products
     README.txt
     docs

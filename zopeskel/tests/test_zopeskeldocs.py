@@ -57,6 +57,11 @@ def ls(*args):
     if os.path.isdir(dirname):
         filenames = os.listdir(dirname)
         for filename in sorted(filenames):
+            # Depending on how pristine your testing env is, the
+            # Paster/PasteScript eggs may end up here; this ins't
+            # very predictable. Hide them.
+            if filename.endswith('.egg'):
+                continue
             print filename
     else:
         print 'No directory named %s' % dirname
