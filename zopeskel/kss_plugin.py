@@ -20,4 +20,5 @@ Plone 3 framwork for JavaScript/AJAX).
 
     vars = copy.deepcopy(NestedNamespace.vars)
     get_var(vars, 'namespace_package').default = 'kss'
+    get_var(vars, 'namespace_package2').default = 'plugin'
     get_var(vars, 'keywords').default = 'kss plugin'
