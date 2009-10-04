@@ -160,7 +160,7 @@ def usage():
     common, uncommon = list_printable_templates()
     print USAGE % (common, uncommon)
 
-def help():
+def show_help():
     print DESCRIPTION
 
 def list_printable_templates():
@@ -214,7 +214,7 @@ def run():
     """ """
 
     if "--help" in sys.argv:
-        help()
+        show_help()
         return
 
     if len(sys.argv) == 1:
@@ -240,11 +240,40 @@ def run():
     print "\n%s: %s" % (template_name, template.summary)
     print template.help
 
+    create = get_commands()['create'].load()
+    
+    command = create('create')
+
+    if output_name:
+        try:
+            checkdots(template, output_name)
+        except ValueError, e:
+            print "ERROR: %s\n" % e
+            return
+
+    else:
+        ndots = getattr(template, 'ndots', None)
+        help = DOT_HELP.get(ndots)
+
+        while True:
+            if help: print help
+            try:
+                output_name = command.challenge("Enter project name")
+                checkdots(template, output_name)
+            except ValueError, e:
+                print "\nERROR: %s" % e
+            else:
+                break
+            
+
+    print """
+If at any point, you need additional help for a question, you can enter 
+'?' and press RETURN.
+"""
+
     optslist = [ '%s=%s' % (k,v) for k, v in opts.items() ]
     if output_name is not None:
         optslist.insert(0, output_name)
-    create = get_commands()['create'].load()
-    
-    create('create').run( [ '-t', template_name ] + optslist )
+    command.run( [ '-t', template_name ] + optslist )
 
 
