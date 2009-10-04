@@ -33,12 +33,17 @@ buildout.
 VAR_PLONE_PRODUCTS = StringVar(
     'plone_products_install',
     title='Plone Products Directory',
-    description='Path to directory containing Plone products; leave blank to fetch one',
+    description='Path to Plone products; leave blank to fetch [Plone 3.0/3.1 only]',
     modes=(EASY, EXPERT),
     page='Main',
     default='',
     help="""
-TODO
+Prior to Plone 3.2, Plone shipped as individual Zope products. If you
+are installing a version prior to 3.2, and you have these Plone products
+already downloaded, you can specify the path to them here. If you leave
+this blank, they will be downloaded.
+
+For Plone 3.2 and later, this option is ignored.
 """
     )
 
