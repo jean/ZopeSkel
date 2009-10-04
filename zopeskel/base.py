@@ -185,9 +185,6 @@ For more information: paster help COMMAND""" % print_commands
                 subsequent_indent="|  ",
                 )
 
-        if cmd.verbose and hasattr(self, 'help'):
-            print self.help
-
         # now, mostly copied direct from paster
         expect_vars = self.read_vars(cmd)
         if not expect_vars:

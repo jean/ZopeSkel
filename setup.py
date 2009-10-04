@@ -80,5 +80,8 @@ setup(name='ZopeSkel',
       user_enumeration_plugin = zopeskel.localcommands.plone_pas:UserEnumerationPlugin
       group_enumeration_plugin = zopeskel.localcommands.plone_pas:GroupEnumerationPlugin
       role_enumeration_plugin = zopeskel.localcommands.plone_pas:RoleEnumerationPlugin
+
+      [console_scripts]
+      zopeskel = zopeskel.zopeskel_script:run
       """,
       )

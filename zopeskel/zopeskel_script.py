@@ -1,5 +1,7 @@
 import sys
 import pkg_resources
+from paste.script.command import get_commands
+
 
 # These are the "common" templates; they will be listed in a separate
 # list for new users. Please be conservative about adding new
@@ -28,11 +30,9 @@ Usage:
 Common templates:
 
 %s
-
 Less common templates:
 
 %s
-
 For further help information, please invoke this script with the
 option "--help".
 """
@@ -175,4 +175,34 @@ def help():
 
 def run():
     """ """
-    # Do something cool
+    
+    if "--help" in sys.argv:
+        help()
+        return
+
+    if len(sys.argv) == 1:
+        usage()
+        return
+
+    template_name = sys.argv[1]
+    rez = pkg_resources.iter_entry_points(
+            'paste.paster_create_template',
+            template_name)
+    rez = list(rez)
+    if not rez:
+        usage()
+        print "ERROR: No such template: %s\n" % template_name
+        return
+
+    template = rez[0].load()
+
+    print "\n%s: %s" % (template_name, template.summary)
+    print template.help
+
+    name = "foo.bar" # opts['name']
+    optslist = [] # [ '%s=%s' % (k,v) for k, v in opts.items() ]
+    create = get_commands()['create'].load()
+    #create('create').run( [ '-t', template_name, name ] + optslist )
+    create('create').run( [ '-t', template_name ] + optslist )
+
+
