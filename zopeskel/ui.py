@@ -31,6 +31,12 @@ def list_sorted_templates():
     Templates will be sorted into 'common' and 'advanced' groups
     and listed separately.
     """
+    # XXX Instantiating the template with the entry point name as the template
+    #     name might be a little weird here--it works for making a printable
+    #     list, but otherwise is strange as the name in the template instance
+    #     is the name of the thing we're creating, not the name of the
+    #     template.  Would it be too disruptive to make this return the
+    #     entry points rather than the intantiated templates?
     common_list = ""
     advanced_list = ""
     # grab a list of all paster create template entry points
