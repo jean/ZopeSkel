@@ -26,7 +26,7 @@ class IVar:
 
     # Modes that question should appear in
     # 'easy', 'intermediate', 'advanced'
-    modes = (,)
+    modes = ()
 
     # Widget hint?
     # XXX Todo
