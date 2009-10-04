@@ -112,7 +112,7 @@ users should not run in expert mode.
             update_setup_cfg(setup_cfg, 'zopeskel', 'template', self.name)
 
     def print_subtemplate_notice(self, output_dir=None):
-            """Print a notice about local commands begin availabe (if this is
+            """Print a notice about local commands being availabe (if this is
             indeed the case).
 
             Unfortunately for us, at this stage in the process, the
@@ -146,11 +146,30 @@ Commands:
 
 For more information: paster help COMMAND""" % print_commands
             print '-' * 78
-
+    
+    def print_zopeskel_message(self, msg_name):
+        """ print a message stored as an attribute of the template 
+        """
+        msg = getattr(self, msg_name, None)
+        if msg:
+            textwrapper = TextWrapper(
+                    initial_indent="**  ",
+                    subsequent_indent="**  ",
+                    ) 
+            print "\n" + '*'*74
+            wrap_help_paras(textwrapper, msg)
+            print '*'*74 + "\n"
+    
+    def pre(self, *args, **kwargs):
+        templates.Template.pre(self, *args, **kwargs)
+    
     def post(self, *args, **kargs):
         if self.use_local_commands:
             self.print_subtemplate_notice()
         templates.Template.post(self, *args, **kargs)
+        # at the very end of it all, print the post_run_msg so we can 
+        # inform users of important information.
+        self.print_zopeskel_message('post_run_msg')
 
     def _filter_for_modes(self, expert_mode, expected_vars):
         """ given the boolean 'expert_mode' and a list of expected vars,
@@ -168,6 +187,10 @@ For more information: paster help COMMAND""" % print_commands
         return hidden
 
     def check_vars(self, vars, cmd):
+        # if we need to notify users of anything before they start this
+        # whole process, we can do it here.
+        self.print_zopeskel_message('pre_run_msg')
+        
         # Copied and modified from PasteScript's check_vars--
         # the method there wasn't hookable for the things
         # we need -- question posing, validation, etc.
