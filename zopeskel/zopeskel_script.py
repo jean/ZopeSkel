@@ -238,7 +238,9 @@ def run():
     template = rez[0].load()
 
     print "\n%s: %s" % (template_name, template.summary)
-    print template.help
+    help = getattr(template, 'help', None)
+    if help:
+        print template.help
 
     create = get_commands()['create'].load()
     
