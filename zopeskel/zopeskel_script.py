@@ -9,6 +9,9 @@ Usage:
 
     zopeskel <template> <output-name> [var1=value] ... [varN=value]
 
+    zopeskel --help                Full help
+    zopeskel --make-config-file    Output .zopeskel prefs file
+
 Common templates:
 
 %s
@@ -83,6 +86,12 @@ For example, our $HOME/.zopeskel could contain:
     empty_styles = False
     license_name = BSD
     keywords = %(master_keywords)s additional keywords
+
+You can generate a starter .zopeskel file by running this script with
+the --make-config-file option. This output can be redirected into
+your .zopeskel file:
+
+    bin/zopeskel --make-config-file > /path/to/home/.zopeskel
 
 Notes:
 
@@ -186,6 +195,27 @@ def list_printable_templates():
 
     return common, advanced
 
+def generate_dotzopeskel():
+    """Make an example .zopeskel file for user."""
+
+    common, advanced = list_sorted_templates()
+    print """
+
+# This file can contain preferences for zopeskel.
+# To do so, uncomment the lines that look like:
+#    variable_name = Default Value
+
+[DEFAULT]
+"""
+    for list_ in (common, advanced):
+        for temp in list_:
+            print "\n[%s]\n" % temp.name
+            tempc = temp.load()
+            for var in tempc.vars:
+                if hasattr(var, 'pretty_description'):
+                    print "# %s" % var.pretty_description()
+                print "# %s = %s\n" % ( var.name, var.default )
+
 def process_args():
     """ return a tuple of template_name, output_name and everything else
     
@@ -212,6 +242,10 @@ def process_args():
 
 def run():
     """ """
+
+    if "--make-config-file" in sys.argv:
+        generate_dotzopeskel()
+        return
 
     if "--help" in sys.argv:
         show_help()
