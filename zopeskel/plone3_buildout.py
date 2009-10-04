@@ -152,6 +152,15 @@ class Plone3Buildout(BaseTemplate):
     a Plone-based buildout. This is no longer the case.)
 """
 
+    post_run_msg = """
+Generation finished.
+
+You probably want to run python bootstrap.py and then edit
+buildout.cfg before running bin/buildout -v".
+
+See README.txt for details.
+"""
+
     required_templates = []
     use_cheetah = True
 
@@ -173,16 +182,6 @@ class Plone3Buildout(BaseTemplate):
             vars['zope2_version'] = "2.9.10"
         vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
         super(Plone3Buildout, self).pre(command, output_dir, vars)
-    
-    def post(self, command, output_dir, vars):
-        print "-----------------------------------------------------------"
-        print "Generation finished"
-        print "You probably want to run python bootstrap.py and then edit"
-        print "buildout.cfg before running bin/buildout -v"
-        print
-        print "See README.txt for details"
-        print "-----------------------------------------------------------"
-        super(Plone3Buildout, self).post(command, output_dir, vars)
 
 
 

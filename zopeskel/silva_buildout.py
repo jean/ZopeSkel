@@ -15,6 +15,14 @@ class SilvaBuildout(BaseTemplate):
 This template creates an installation of Silva 
 (http://www.infrae.com/products/silva).
 """
+    post_run_msg = """
+Generation finished.
+
+You probably want to run python bootstrap.py and then edit
+buildout.cfg before running bin/buildout -v".
+
+See README.txt for details.
+"""
     required_templates = []
     use_cheetah = True
 
@@ -35,16 +43,3 @@ This template creates an installation of Silva
         VAR_DEBUG_MODE,
         VAR_VERBOSE_SEC,
         ]
-
-    def post(self, command, output_dir, vars):
-        print "-----------------------------------------------------------"
-        print "Generation finished"
-        print "You probably want to run python bootstrap.py and then edit"
-        print "buildout.cfg before running bin/buildout -v"
-        print
-        print "See README.txt for details"
-        print "-----------------------------------------------------------"
-        super(SilvaBuildout, self).post(command, output_dir, vars)
-
-
-

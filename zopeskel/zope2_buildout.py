@@ -14,6 +14,14 @@ This template creates a buildout that does not contain Plone or Silva
 information. It is intended for people using Zope 2 directly. If you
 would like to use Plone or Silva, you should use the appropriate buildouts.
 """
+    post_run_msg = """
+Generation finished.
+
+You probably want to run python bootstrap.py and then edit
+buildout.cfg before running bin/buildout -v".
+
+See README.txt for details.
+"""
     required_templates = []
     use_cheetah = True
 
@@ -37,16 +45,6 @@ specify the version.
         VAR_DEBUG_MODE,
         VAR_VERBOSE_SEC,
         ]
-
-    def post(self, command, output_dir, vars):
-        print "-----------------------------------------------------------"
-        print "Generation finished"
-        print "You probably want to run python bootstrap.py and then edit"
-        print "buildout.cfg before running bin/buildout -v"
-        print
-        print "See README.txt for details"
-        print "-----------------------------------------------------------"
-        super(Zope2Buildout, self).post(command, output_dir, vars)
 
 
 
