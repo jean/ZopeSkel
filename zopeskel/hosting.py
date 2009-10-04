@@ -27,6 +27,11 @@ class StandardHosting(BaseTemplate):
     use_cheetah = True
     summary = "Plone hosting: buildout with ZEO and any Plone version"
     required_templates = []
+    help = """
+This template helps you to create an entire zope hosting setup, including
+ZEO and a single Zope client instance.  If you desire, it can also install
+and set up the Varnish Caching/Proxy Server.    
+"""
 
     vars = copy.deepcopy(BaseTemplate.vars);
     vars = [
@@ -45,9 +50,12 @@ class StandardHosting(BaseTemplate):
 For standardization, rather than selecting ports for Zope, ZEO, and
 a proxy individually, these are tied together numerically.
 
-ZEO port   = Base + 0
-Proxy port = Base + 1
-HTTP port  = Base + 10
+ZEO port = Base + 0 | Proxy port = Base + 1 | HTTP port = Base + 10
+
+If the ports specified by any of these numbers are already in use or
+otherwise unavailable, this template will inform you of the problem and
+exit with an error.  If this happens, please try another number for
+'Base Port #'
 """,
             ),
             
@@ -56,7 +64,11 @@ HTTP port  = Base + 10
             title="Install proxy server?",
             description="Should a proxy server be installed?",
             default=False,
-            # help=""" TODO.  """
+            help=""" 
+If you ask for a proxy server to be installed, this template will include
+the Varnish Caching/Proxy server.  If you wish to use a different proxy
+server, please answer False and install your own.  
+""",
             ),
 
         StringVar(
@@ -64,7 +76,14 @@ HTTP port  = Base + 10
             title="Plone Version",
             description="Version to install (2.5, 2.5.1, 3.0, 3.0.1, etc)",
             default="3.1.4",
-            # help="TODO",
+            help="""
+You can use this template to install any version of Plone from 2.5 on.  
+In general it is advisable to use the most recent version of Plone.  You
+can find a list of stable Plone releases at 
+
+http://plone.org/products/plone/releases/
+
+""",
             ),
 
         BooleanVar(
@@ -72,7 +91,14 @@ HTTP port  = Base + 10
             title="Run Buildout?",
             description="Should bin/buildout command be executed?",
             default=True,
-            #help="""TODO""",
+            help="""
+Would you like this template to automatically run the buildut command as soon
+as it finishes creating the required files?
+
+If you intend on adding any specific third-party products or modifying the
+buildout in any way, you should answer 'False'.  Then make your modifications
+and run `python bootstrap.py` followed by `bin/buildout`.
+""",
             ),
 
             ]
