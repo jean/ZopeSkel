@@ -9,9 +9,7 @@ from paste.script import templates
 from zopeskel.base import BadCommand
 from zopeskel.base import BaseTemplate, EASY, EXPERT
 from zopeskel.vars import var, IntVar, BooleanVar, StringVar
-from zopeskel.plone3_buildout import (
-    VAR_Z2_INSTALL, VAR_ZOPE_USER, VAR_ZOPE_PASSWD, VAR_HTTP, 
-    VAR_DEBUG_MODE, VAR_VERBOSE_SEC )
+from zopeskel import abstract_buildout
 
 plone25s = {
         "2.5.5": "https://launchpad.net/plone/2.5/2.5.5/+download/Plone-2.5.5.tar.gz",
@@ -22,7 +20,7 @@ plone25s = {
         "2.5"  : "http://heanet.dl.sourceforge.net/sourceforge/plone/Plone-2.5.tar.gz",
         }
 
-class StandardHosting(BaseTemplate):
+class StandardHosting(abstract_buildout.AbstractBuildout):
     _template_dir = "templates/plone_hosting"
     use_cheetah = True
     summary = "Plone hosting: buildout with ZEO and any Plone version"
@@ -33,11 +31,11 @@ ZEO and a single Zope client instance.  If you desire, it can also install
 and set up the Varnish Caching/Proxy Server.    
 """
 
-    vars = copy.deepcopy(BaseTemplate.vars);
+    vars = copy.deepcopy(abstract_buildout.AbstractBuildout.vars);
     vars = [
 
-        VAR_ZOPE_USER,
-        VAR_ZOPE_PASSWD, 
+        abstract_buildout.VAR_ZOPE_USER,
+        abstract_buildout.VAR_ZOPE_PASSWD, 
 
         IntVar(
             "base_port", 

@@ -3,10 +3,10 @@ import copy
 
 from zopeskel.base import get_var
 from zopeskel.base import var
-from zopeskel.nested_namespace import NestedNamespace
+from zopeskel import abstract_zope
 
 
-class KssPlugin(NestedNamespace):
+class KssPlugin(abstract_zope.AbstractNestedZope):
     _template_dir = 'templates/kss_plugin'
     summary = "A project for a KSS plugin"
     ndots = 2
@@ -18,7 +18,7 @@ Plone 3 framwork for JavaScript/AJAX).
     required_templates = []
     use_cheetah = True
 
-    vars = copy.deepcopy(NestedNamespace.vars)
+    vars = copy.deepcopy(abstract_zope.AbstractNestedZope.vars)
     get_var(vars, 'namespace_package').default = 'kss'
     get_var(vars, 'namespace_package2').default = 'plugin'
     get_var(vars, 'keywords').default = 'kss plugin'

@@ -1,9 +1,9 @@
 import copy
 
-from zopeskel.nested_namespace import NestedNamespace
+from zopeskel import abstract_zope
 from zopeskel.base import get_var
 
-class PlonePas(NestedNamespace):
+class PlonePas(abstract_zope.AbstractNestedZope):
     _template_dir = 'templates/plone_pas'
     summary = "A project for a Plone PAS plugin"
     help = """
@@ -14,7 +14,7 @@ system') plugin.
     use_cheetah = True
     use_local_commands = True
 
-    vars = copy.deepcopy(NestedNamespace.vars)
+    vars = copy.deepcopy(abstract_zope.AbstractNestedZope.vars)
     get_var(vars, 'namespace_package2').default = 'pas'
 
     def pre(self, command, output_dir, vars):

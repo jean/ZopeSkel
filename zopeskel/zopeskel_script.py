@@ -276,6 +276,6 @@ If at any point, you need additional help for a question, you can enter
     optslist = [ '%s=%s' % (k,v) for k, v in opts.items() ]
     if output_name is not None:
         optslist.insert(0, output_name)
-    command.run( [ '-t', template_name ] + optslist )
+    command.run( [ '-q', '-t', template_name ] + optslist )
 
 

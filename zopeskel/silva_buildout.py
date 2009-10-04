@@ -1,14 +1,11 @@
-from zopeskel.base import BaseTemplate
-from zopeskel.base import BadCommand
+import copy
+
+from zopeskel import abstract_buildout
 from zopeskel.base import var, EASY, EXPERT
-from zopeskel.base import templates
 from zopeskel.vars import StringVar, StringChoiceVar
-from zopeskel.plone3_buildout import (
-    VAR_Z2_INSTALL, VAR_ZOPE_USER, VAR_ZOPE_PASSWD, VAR_HTTP, 
-    VAR_DEBUG_MODE, VAR_VERBOSE_SEC )
 
 
-class SilvaBuildout(BaseTemplate):
+class SilvaBuildout(abstract_buildout.AbstractBuildout):
     _template_dir = 'templates/silva_buildout'
     summary = "A buildout for Silva projects"
     help = """
@@ -26,8 +23,9 @@ See README.txt for details.
     required_templates = []
     use_cheetah = True
 
-    vars = [
-        VAR_Z2_INSTALL,
+    vars = copy.deepcopy(abstract_buildout.AbstractBuildout.vars)
+    vars.extend([
+        abstract_buildout.VAR_Z2_INSTALL,
         StringChoiceVar(
             'silva_distribution',
             title='Silva Distribution',
@@ -37,9 +35,10 @@ See README.txt for details.
             page='Main',
             choices=('stable','development'),
             ),
-        VAR_ZOPE_USER,
-        VAR_ZOPE_PASSWD,
-        VAR_HTTP,
-        VAR_DEBUG_MODE,
-        VAR_VERBOSE_SEC,
+        abstract_buildout.VAR_ZOPE_USER,
+        abstract_buildout.VAR_ZOPE_PASSWD,
+        abstract_buildout.VAR_HTTP,
+        abstract_buildout.VAR_DEBUG_MODE,
+        abstract_buildout.VAR_VERBOSE_SEC,
         ]
+    )

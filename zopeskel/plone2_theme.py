@@ -96,6 +96,11 @@ It is recommend you leave this on.
               ]
 
 class Plone2Theme(BaseTemplate):
+
+    # This does not descend from AbstractZope, since it's not
+    # a egg package, but just a raw Zope Product (unlike other
+    # templates)
+
     _template_dir = 'templates/plone2_theme'
     summary = "A theme for Plone 2.1"
     ndots = 0

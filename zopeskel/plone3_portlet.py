@@ -1,12 +1,11 @@
 import copy
 
-from zopeskel.nested_namespace import NestedNamespace
 from zopeskel.plone_app import PloneApp
 from zopeskel.base import get_var
 from zopeskel.base import var, EASY, EXPERT
 from zopeskel.vars import StringVar, DottedVar
 
-class Plone3Portlet(NestedNamespace):
+class Plone3Portlet(PloneApp):
     _template_dir = 'templates/plone3_portlet'
     summary = "A Plone 3 portlet"
     help = """

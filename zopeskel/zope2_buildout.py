@@ -1,12 +1,11 @@
-from zopeskel.base import BaseTemplate
+import copy
+
+from zopeskel import abstract_buildout
 from zopeskel.base import var, EASY, EXPERT
 from zopeskel.vars import StringVar
-from zopeskel.plone3_buildout import (
-    VAR_Z2_INSTALL, VAR_ZOPE_USER, VAR_ZOPE_PASSWD, VAR_HTTP, 
-    VAR_DEBUG_MODE, VAR_VERBOSE_SEC )
 
 
-class Zope2Buildout(BaseTemplate):
+class Zope2Buildout(abstract_buildout.AbstractBuildout):
     _template_dir = 'templates/zope2_buildout'
     summary = "A buildout for a blank (non-Silva, non-Plone) Zope 2 instance"
     help = """
@@ -25,8 +24,9 @@ See README.txt for details.
     required_templates = []
     use_cheetah = True
 
-    vars = [
-        VAR_Z2_INSTALL,
+    vars = copy.deepcopy(abstract_buildout.AbstractBuildout.vars)
+    vars.extend([
+        abstract_buildout.VAR_Z2_INSTALL,
         StringVar(
             'zope2_version',
             title='Zope 2 Version',
@@ -39,12 +39,13 @@ If a version of Zope needs to be pulled down, this option lets you
 specify the version.
 """
             ),
-        VAR_ZOPE_USER,
-        VAR_ZOPE_PASSWD,
-        VAR_HTTP,
-        VAR_DEBUG_MODE,
-        VAR_VERBOSE_SEC,
+        abstract_buildout.VAR_ZOPE_USER,
+        abstract_buildout.VAR_ZOPE_PASSWD,
+        abstract_buildout.VAR_HTTP,
+        abstract_buildout.VAR_DEBUG_MODE,
+        abstract_buildout.VAR_VERBOSE_SEC,
         ]
+    )
 
 
 
