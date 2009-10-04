@@ -130,11 +130,45 @@ namespace', like 'foo.bar.baz').
 }
 
 def usage():
-    common, uncommon = list_sorted_templates()
+    common, uncommon = list_printable_templates()
     print USAGE % (common, uncommon)
 
 def help():
     print DESCRIPTION
+
+def _display_list_template(entry, max_name):
+    """
+    For a given entry point, returns string for displaying to console when
+    listing templates.
+    """
+    template = entry.load()
+    return "|  %s:%s %s\n" % (
+            name,
+            ' '*(max_name-len(entry.name)),
+            template.summary)
+
+def list_printable_templates():
+    """
+    Output a printable list of all templates, sorted into two parts.
+
+    Templates will be sorted into 'common' and 'advanced' groups
+    and listed separately.
+    """
+    common, advanced = list_sorted_templates()
+    everyone = common + advanced
+    max_name = max([len(e.name) for e in everyone])
+
+    def display(entry):
+        template = entry.load()
+        return "|  %s:%s %s\n" % (
+                entry.name,
+                ' '*(max_name-len(entry.name)),
+                template.summary)
+
+    common = ''.join(map(display, common))
+    advanced = ''.join(map(display, advanced))
+
+    return common, advanced
 
 def run():
     """ """

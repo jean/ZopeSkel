@@ -26,19 +26,14 @@ COMMON = [
 ]
 
 def list_sorted_templates():
-    """Output a printable list of all templates, sorted into two parts.
+    """
+    Returns two part list of template entry points.
 
     Templates will be sorted into 'common' and 'advanced' groups
     and listed separately.
     """
-    # XXX Instantiating the template with the entry point name as the template
-    #     name might be a little weird here--it works for making a printable
-    #     list, but otherwise is strange as the name in the template instance
-    #     is the name of the thing we're creating, not the name of the
-    #     template.  Would it be too disruptive to make this return the
-    #     entry points rather than the intantiated templates?
-    common_list = ""
-    advanced_list = ""
+    common_list = []
+    advanced_list = []
     # grab a list of all paster create template entry points
     t_e_ps = pkg_resources.iter_entry_points('paste.paster_create_template')
     templates = []
@@ -47,23 +42,17 @@ def list_sorted_templates():
             # We only want our templates in this list
             template = entry.load()
             if issubclass(template, BaseTemplate):
-                templates.append(template(entry.name))
+                templates.append(entry)
         except Exception, e:
             # We will not be stopped!
             print 'Warning: could not load entry point %s (%s: %s)' % (
                 entry.name, e.__class__.__name__, e)
-    max_name = max([len(t.name) for t in templates])
     templates.sort(key=lambda x: x.name)
 
-    for template in templates:
-        name = template.name
-        display = "|  %s:%s %s\n" % (
-            name,
-            ' '*(max_name-len(template.name)),
-            template.summary)
-        if name in COMMON:
-            common_list += display
+    for entry in templates:
+        if entry.name in COMMON:
+            common_list.append(entry)
         else:
-            advanced_list += display
+            advanced_list.append(entry)
 
     return common_list, advanced_list
