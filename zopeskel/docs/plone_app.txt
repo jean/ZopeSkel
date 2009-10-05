@@ -4,8 +4,8 @@ plone_app template
 
 Use paster::
 
-    >>> paster('create -t plone_app plone.app.example namespace_package=plone namespace_package2=app package=example --no-interactive')
-    paster create -t plone_app plone.app.example namespace_package=plone namespace_package2=app package=example --no-interactive
+    >>> paster('create -t plone_app plone.app.example --no-interactive')
+    paster create -t plone_app plone.app.example --no-interactive
     ...
 
 Let's check the content::
