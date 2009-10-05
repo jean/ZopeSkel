@@ -25,7 +25,7 @@ on how to use this command.
     use_local_commands = True
 
     vars = copy.deepcopy(Plone.vars)
-    vars.insert(0, StringVar(
+    vars.insert(1, StringVar(
         'title',
         title='Project Title',
         description='Title of the project',
