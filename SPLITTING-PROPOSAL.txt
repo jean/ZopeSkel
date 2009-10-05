@@ -80,13 +80,14 @@ party packages that add templates. Larger institutional users of
 Python/Zope/Plone/Silva may find it beneficial to write their own,
 customized templates (the author of this document already does, for
 example); however, that this is possible is slightly obscured by the fact
-that ship only one monolithic system with all the recipes in it.
+that we ship only one monolithic system with all the recipes in it.
 
 Tasks Needed
 ============
 
-1) Change the imports inside of ZopeSkel to match these new package names;
-   for example, changing "plone.py" to import the BasicZope class as
+1) Change the imports and entry points inside of ZopeSkel to match
+   these new package names; for example, changing "plone.py" to
+   import the BasicZope class as
    "from zopeskel.zope.basic_zope import BasicZope". 
 
 2) Adding imports to zopeskel/__init__.py to import everything into this
