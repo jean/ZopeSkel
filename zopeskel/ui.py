@@ -31,6 +31,14 @@ def list_sorted_templates(filter_group=False):
 
     Templates will be sorted into 'common' and 'advanced' groups
     and listed separately.
+
+    If "filter_group" is True, then this explictly filters to
+    things provided by the ZopeSkel package--thereby hiding any
+    templates the user may have on their system that sit on top
+    of zopeskel's base classes. This is required in places where
+    we want to generate canonical documents, and don't want to
+    accidentally include things from the machine it's being run
+    on.
     """
     common_list = []
     advanced_list = []
