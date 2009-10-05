@@ -3,8 +3,12 @@ from paste.script.templates import var as base_var
 
 ##########################################################################
 # Mode constants
+
+# keep these lowercased, as choicesvars are lowercased
+
 EXPERT = 'expert'
 EASY = 'easy'
+ALL = 'all'
 
 ##########################################################################
 # Variable classes
@@ -97,7 +101,7 @@ class StringChoiceVar(var):
         super(StringChoiceVar, self).__init__(*args, **kwargs)
 
     def validate(self, value):
-        value = value.strip()
+        value = value.strip().lower()
         if not value in self.choices:
             raise ValidationException("Not a valid value: %s" % value)
 

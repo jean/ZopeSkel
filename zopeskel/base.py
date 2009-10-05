@@ -8,8 +8,8 @@ from paste.script import templates
 from paste.script.templates import var as base_var
 from paste.script.command import BadCommand
 from paste.script.templates import BasicPackage
-from zopeskel.vars import var, BooleanVar
-from zopeskel.vars import EASY, EXPERT
+from zopeskel.vars import var, BooleanVar, StringChoiceVar
+from zopeskel.vars import EASY, EXPERT, ALL
 from zopeskel.vars import ValidationException
 
 
@@ -81,16 +81,22 @@ class BaseTemplate(templates.Template):
     null_value_marker = []
 
     vars = [
-        BooleanVar(
+        StringChoiceVar(
             'expert_mode',
             title='Expert Mode?',
-            description='Would you like to run zopeskel in expert mode?',
+            description='What question mode would you like? (easy/expert/all)?',
             page='Main',
-            default='False',
+            default='easy',
+            choices=('easy','expert','all'),
             help="""
-In Expert Mode, you will be asked to answer a larger
-number of questions during this setup process.  Most
-users should not run in expert mode.
+In easy mode, you will be asked fewer, more common questions.
+
+In expert mode, you will be asked to answer more advanced,
+technical questions.
+
+In all mode, no questions will be skipped--even things like
+author_email, which would normally be a default set in a
+$HOME/.zopeskel file.
 """),
     ]
 
@@ -208,17 +214,20 @@ For more information: paster help COMMAND""" % print_commands
         # inform users of important information.
         self.print_zopeskel_message('post_run_msg')
 
-    def _filter_for_modes(self, expert_mode, expected_vars):
-        """ given the boolean 'expert_mode' and a list of expected vars,
-            return a dict of vars to be hidden from view
+    def _filter_for_modes(self, mode, expected_vars):
+        """Filter questions down according to our mode.
+        
+        ALL = show all questions
+        EASY, EXPERT = show just those
         """
+
+        if mode == ALL: return {}
+
         hidden = {}
+
         for var in expected_vars:
             # if in expert mode, hide vars not for expert mode
-            if expert_mode and EXPERT not in var.modes:
-                hidden[var.name] = var.default
-
-            if not expert_mode and EASY not in var.modes:
+            if  mode not in var.modes:
                 hidden[var.name] = var.default
 
         return hidden
@@ -244,7 +253,6 @@ For more information: paster help COMMAND""" % print_commands
             if ndots >= 2 and len(parts) >= 2:
                 get_var(expect_vars, 'namespace_package2').default = parts[1]
             package_name = parts[-1]
-            vars["package"] = package_name
             get_var(expect_vars, 'package').default = package_name
             
     def check_vars(self, vars, cmd):

@@ -49,7 +49,7 @@ class test_base_template(unittest.TestCase):
         expert_vars = [var.name for var in self.vars
                        if EXPERT not in var.modes]
 
-        expert_mode = False
+        expert_mode = EASY
         hidden = self.template._filter_for_modes(expert_mode, self.vars)
 
         self.assertEqual(len(hidden), 2)
@@ -57,7 +57,7 @@ class test_base_template(unittest.TestCase):
             self.failUnless(varname in easy_vars,
                             "missing easy var: %s" % varname)
 
-        expert_mode = True
+        expert_mode = EXPERT
         hidden = self.template._filter_for_modes(expert_mode, self.vars)
 
         self.assertEqual(len(hidden), 2)
