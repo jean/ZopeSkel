@@ -10,7 +10,7 @@ class Plone25Theme(Plone):
     _template_dir = 'templates/plone2.5_theme'
     summary = "A theme for Plone 2.5"
     help = """
-This creates a project for a theme for Plone 3.
+This creates a project for a theme for Plone 2.5
 """
     required_templates = ['plone']
     use_cheetah = True

@@ -8,7 +8,7 @@ class Recipe(NestedNamespace):
     _template_dir = 'templates/recipe'
     summary = "A recipe project for zc.buildout"
     help = """
-This creates a buildout recipe.
+This creates a skeleton for a buildout recipe.
 """
     required_templates = []
     use_cheetah = True

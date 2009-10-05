@@ -5,6 +5,11 @@ from zopeskel.base import get_var
 class Plone25Buildout(Plone3Buildout):
     _template_dir = 'templates/plone2.5_buildout'
     summary = "A buildout for Plone 2.5 projects"
+    help = """
+This template creates a buildout for Plone 2.5, appropriate for
+development. If you also need ZEO or caching, you may wish to look
+at the plone_hosting template.
+"""
     required_templates = ['plone3_buildout']
 
     vars = copy.deepcopy(Plone3Buildout.vars)

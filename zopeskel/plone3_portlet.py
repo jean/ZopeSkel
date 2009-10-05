@@ -9,7 +9,7 @@ class Plone3Portlet(PloneApp):
     _template_dir = 'templates/plone3_portlet'
     summary = "A Plone 3 portlet"
     help = """
-This create a Plone project for a portlet.
+This creates a Plone project for a portlet.
 """
     required_templates = ['nested_namespace']
     use_cheetah = True
