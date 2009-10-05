@@ -1,12 +1,10 @@
 Quick notes on todo for sprint left:
 
-- change expert_mode into mode, so can pick easy, expert, or all
 
 - write up proposal to divide project into zopeskel.base, zopeskel.plone, etc
 
 - docs for new zopeskel command on plone.org
 
-- auto html docs; show local commands
 
 - think about right syntax for local commands--should this come out of bin/zopeskel?
   or should we have them use paster directly?
