@@ -24,11 +24,11 @@ def _get_local_commands():
 
 def make_html():
 
-    common, advanced = list_sorted_templates()
+    common, advanced = list_sorted_templates(filter_group=True)
     subtemplates = _get_local_commands()
 
     for title, list_ in (
-            ('Common Templates', common), 
+            ('Common Templates', common),
             ('Advanced Templates', advanced)):
         print "<h2>%s</h2>" % title
         for temp in list_:
@@ -53,6 +53,6 @@ def make_html():
                 for sub in subs:
                     print "<li>%s (%s)</li>" % (sub[0], sub[1])
                 print "</ul>"
-            
+
 if __name__=="__main__":
     make_html()

@@ -25,7 +25,7 @@ COMMON = [
   'plone_app',
 ]
 
-def list_sorted_templates():
+def list_sorted_templates(filter_group=False):
     """
     Returns two part list of template entry points.
 
@@ -35,7 +35,11 @@ def list_sorted_templates():
     common_list = []
     advanced_list = []
     # grab a list of all paster create template entry points
-    t_e_ps = pkg_resources.iter_entry_points('paste.paster_create_template')
+    if filter_group:
+        t_e_ps = pkg_resources.get_entry_map(
+            'zopeskel')['paste.paster_create_template'].values()
+    else:
+        t_e_ps = pkg_resources.iter_entry_points('paste.paster_create_template')
     templates = []
     for entry in t_e_ps:
         try:
