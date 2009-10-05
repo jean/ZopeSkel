@@ -136,5 +136,7 @@ deployment; if you turn it on, you should consider turning it off.
 class AbstractBuildout(BaseTemplate):
     """Abstract class for all templates that produce buildouts."""
 
+    category = "Buildout"
+
     vars = copy.deepcopy(BaseTemplate.vars)
 

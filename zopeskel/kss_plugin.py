@@ -14,6 +14,7 @@ class KssPlugin(abstract_zope.AbstractNestedZope):
 This creates a project for a KSS plugins ('Kinetic Style Sheets', a 
 Plone 3 framwork for JavaScript/AJAX).
 """
+    cat = "Plone Development"
 
     required_templates = []
     use_cheetah = True

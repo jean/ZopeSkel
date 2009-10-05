@@ -16,6 +16,7 @@ a 'basic namespace'), use the 'plone' template instead.
 """
     required_templates = ['nested_namespace']
     use_cheetah = True
+    category = "Plone Development"
 
     vars = copy.deepcopy(abstract_zope.AbstractNestedZope.vars)
 

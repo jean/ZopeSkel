@@ -14,6 +14,7 @@ want to use the one of the templates for a buildout).
 To create a Plone project with a name like 'plone.app.myproject' 
 (2 dots, a 'nested namespace'), use the 'plone_app' template.
 """
+    category = "Plone Development"
     required_templates = ['basic_namespace']
     use_local_commands = True
     use_cheetah = True

@@ -13,24 +13,9 @@ from zopeskel.base import BaseTemplate
 # listing; this is where things like PAS plugins, special hosting,
 # Silva, etc., should remain.
 
-COMMON = [
-  'archetype',
-  'plone',
-  'plone2.5_buildout',
-  'plone2.5_theme',
-  'plone2_theme',
-  'plone3_buildout',
-  'plone3_portlet',
-  'plone3_theme',
-  'plone_app',
-]
-
 def list_sorted_templates(filter_group=False):
     """
-    Returns two part list of template entry points.
-
-    Templates will be sorted into 'common' and 'advanced' groups
-    and listed separately.
+    Returns list of categories and templates.
 
     If "filter_group" is True, then this explictly filters to
     things provided by the ZopeSkel package--thereby hiding any
@@ -40,8 +25,8 @@ def list_sorted_templates(filter_group=False):
     accidentally include things from the machine it's being run
     on.
     """
-    common_list = []
-    advanced_list = []
+    
+    cats = {}
     # grab a list of all paster create template entry points
     if filter_group:
         t_e_ps = pkg_resources.get_entry_map(
@@ -62,9 +47,7 @@ def list_sorted_templates(filter_group=False):
     templates.sort(key=lambda x: x.name)
 
     for entry in templates:
-        if entry.name in COMMON:
-            common_list.append(entry)
-        else:
-            advanced_list.append(entry)
+        category = getattr(entry.load(), 'category', 'Uncategorized')
+        cats.setdefault(category, []).append(entry)
 
-    return common_list, advanced_list
+    return cats

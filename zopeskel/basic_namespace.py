@@ -10,6 +10,7 @@ class BasicNamespace(BaseTemplate):
     help = """
 This creates a Python project without any Zope or Plone features.
 """
+    category = "Core Python"
 
     required_templates = []
     use_cheetah = True

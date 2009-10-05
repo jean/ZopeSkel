@@ -26,9 +26,12 @@ class AbstractZope(BasicNamespace):
     """Abstract class for Zope-based packages in a namespace."""
     vars = copy.deepcopy(BasicNamespace.vars)
     vars.append(VAR_ZOPE2)
+    category = "Zope Development"
 
 class AbstractNestedZope(NestedNamespace):
     """Abstract class for Zope-based packages in a nested namespace."""
     vars = copy.deepcopy(NestedNamespace.vars)
     vars.append(VAR_ZOPE2)
+    category = "Zope Development"
+
 

@@ -10,6 +10,7 @@ class PlonePas(abstract_zope.AbstractNestedZope):
 This create a project for developing a PAS ('pluggable authentication
 system') plugin.
 """
+    category = "Plone Development"
     required_templates = ['nested_namespace']
     use_cheetah = True
     use_local_commands = True

@@ -115,6 +115,7 @@ this, as this will build an eggified Plone 2 theme.
 This template expects a name that is just the name of a classic
 product--a legal Python identifer without any dots in the name.
 """
+    category = "Plone Development"
 
     use_cheetah = True
 

@@ -12,6 +12,7 @@ class Plone25Theme(Plone):
     help = """
 This creates a project for a theme for Plone 2.5
 """
+    category = "Plone Theme Development"
     required_templates = ['plone']
     use_cheetah = True
 

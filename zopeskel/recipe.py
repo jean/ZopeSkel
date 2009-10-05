@@ -10,6 +10,7 @@ class Recipe(NestedNamespace):
     help = """
 This creates a skeleton for a buildout recipe.
 """
+    category = "Buildout"
     required_templates = []
     use_cheetah = True
     vars = copy.deepcopy(NestedNamespace.vars)

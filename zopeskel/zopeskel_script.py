@@ -1,5 +1,6 @@
 import sys
 import pkg_resources
+from cStringIO import StringIO
 from textwrap import TextWrapper
 from zopeskel.base import wrap_help_paras
 from paste.script.command import get_commands
@@ -14,12 +15,6 @@ Usage:
     zopeskel --help                Full help
     zopeskel --list                List template verbosely, with details
     zopeskel --make-config-file    Output .zopeskel prefs file
-
-Common templates:
-
-%s
-Less common templates:
-
 %s
 For further help information, please invoke this script with the
 option "--help".
@@ -185,8 +180,8 @@ def checkdots(template, name):
 
     
 def usage():
-    common, uncommon = list_printable_templates()
-    print USAGE % (common, uncommon)
+    templates = list_printable_templates()
+    print USAGE % templates
 
 def show_help():
     print DESCRIPTION
@@ -196,14 +191,12 @@ def list_verbose():
 
     textwrapper = TextWrapper(
             initial_indent="   ", subsequent_indent="   ")
-    common, advanced = list_sorted_templates()
+    cats = list_sorted_templates()
 
-    for title, list_ in (
-        ('Common Templates', common),
-        ('Advanced Templates', advanced)):
+    for title, items in cats.items():
         print "\n"+ title
         print "-" * len(title)
-        for temp in list_:
+        for temp in items:
             tempc = temp.load()
             print "\n%s: %s\n" % (temp.name, tempc.summary)
 
@@ -215,26 +208,26 @@ def list_verbose():
 
 def list_printable_templates():
     """
-    Output a printable list of all templates, sorted into two parts.
-
-    Templates will be sorted into 'common' and 'advanced' groups
-    and listed separately.
+    Printable list of all templates, sorted into two categories.
     """
-    common, advanced = list_sorted_templates()
-    everyone = common + advanced
-    max_name = max([len(e.name) for e in everyone])
 
-    def display(entry):
-        template = entry.load()
-        return "|  %s:%s %s\n" % (
-                entry.name,
+    s = StringIO()
+
+    cats = list_sorted_templates()
+    templates = sum(cats.values(), [])   # flatten into single list
+    max_name = max([len(x.name) for x  in templates])
+
+    for title, items in cats.items():
+        print >>s, "\n%s\n" % title
+        for entry in items:
+            print >>s, "|  %s:%s %s\n" % (
+                 entry.name,
                 ' '*(max_name-len(entry.name)),
-                template.summary)
+                entry.load().summary),
 
-    common = ''.join(map(display, common))
-    advanced = ''.join(map(display, advanced))
+    s.seek(0)
+    return s.read()
 
-    return common, advanced
 
 def generate_dotzopeskel():
     """Make an example .zopeskel file for user."""
