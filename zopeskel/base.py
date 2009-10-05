@@ -243,7 +243,9 @@ For more information: paster help COMMAND""" % print_commands
                 get_var(expect_vars, 'namespace_package').default = parts[0]
             if ndots >= 2 and len(parts) >= 2:
                 get_var(expect_vars, 'namespace_package2').default = parts[1]
-            get_var(expect_vars, 'package').default = parts[-1]
+            package_name = parts[-1]
+            vars["package"] = package_name
+            get_var(expect_vars, 'package').default = package_name
             
     def check_vars(self, vars, cmd):
         # if we need to notify users of anything before they start this
@@ -273,7 +275,6 @@ For more information: paster help COMMAND""" % print_commands
             # Assume that variables aren't defined
             return vars
         converted_vars = {}
-        unused_vars = vars.copy()
         errors = []
 
         config = get_zopeskel_prefs()
@@ -294,6 +295,7 @@ For more information: paster help COMMAND""" % print_commands
 
         self.override_package_names_defaults(vars, expect_vars)
 
+        unused_vars = vars.copy()
 
         for var in expect_vars:
             if var.name not in unused_vars:
@@ -329,7 +331,6 @@ For more information: paster help COMMAND""" % print_commands
                 hidden = self._filter_for_modes(expert_mode, expect_vars)
                 unused_vars.update(hidden)
 
-
         if errors:
             raise command.BadCommand(
                 'Errors in variables:\n%s' % '\n'.join(errors))
@@ -337,9 +338,6 @@ For more information: paster help COMMAND""" % print_commands
         vars.update(converted_vars)
 
         result = converted_vars
-
-        #package = vars["project"]
-        #result['namespace_package'], result['package'] = package.split(".")
 
         return result
 
