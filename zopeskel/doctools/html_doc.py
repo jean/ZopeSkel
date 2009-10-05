@@ -28,8 +28,8 @@ def make_html():
     subtemplates = _get_local_commands()
 
     for title, list_ in (
-            ('Common Recipes', common), 
-            ('Advanced Recipes', advanced)):
+            ('Common Templates', common), 
+            ('Advanced Templates', advanced)):
         print "<h2>%s</h2>" % title
         for temp in list_:
             print "<h3>%s</h3>" % temp.name
