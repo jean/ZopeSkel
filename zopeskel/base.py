@@ -223,6 +223,28 @@ For more information: paster help COMMAND""" % print_commands
 
         return hidden
 
+    def override_package_names_defaults(self, vars, expect_vars):
+        """Override package names defaults using project title.
+
+        Override the default for namespace_package, namespace_package2,
+        and package from splitting the project title--if ndots is
+        specified by this template.
+
+        This is helpful for new users, who find it confusing to provide
+        a package name like "mycompany.theme.blue" and then have to
+        (slightly-redundantly) specify namespace_package=mycompany,
+        namespace_package2=theme, package=blue.
+        """
+
+        ndots = getattr(self, 'ndots', None)
+        if ndots:
+            parts = vars['project'].split(".")
+            if ndots >= 1 and len(parts) >= 1:
+                get_var(expect_vars, 'namespace_package').default = parts[0]
+            if ndots >= 2 and len(parts) >= 2:
+                get_var(expect_vars, 'namespace_package2').default = parts[1]
+            get_var(expect_vars, 'package').default = parts[-1]
+            
     def check_vars(self, vars, cmd):
         # if we need to notify users of anything before they start this
         # whole process, we can do it here.
@@ -269,6 +291,8 @@ For more information: paster help COMMAND""" % print_commands
                 # in DEFAULT section
                 if config.has_option('DEFAULT', var.name):
                     var.default = config.get('DEFAULT', var.name)
+
+        self.override_package_names_defaults(vars, expect_vars)
 
 
         for var in expect_vars:

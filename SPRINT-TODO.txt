@@ -2,8 +2,6 @@ Quick notes on todo for sprint left:
 
 - change expert_mode into mode, so can pick easy, expert, or all
 
-- split title -> namespaces for default
-
 - write up proposal to divide project into zopeskel.base, zopeskel.plone, etc
 
 - docs for new zopeskel command on plone.org
