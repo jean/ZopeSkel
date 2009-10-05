@@ -197,12 +197,9 @@ def list_verbose():
         print "\n"+ title
         print "-" * len(title)
         for temp in items:
-            tempc = temp.load()
-            print "\n%s: %s\n" % (temp.name, tempc.summary)
-
-            help = getattr(tempc, 'help', None)
-            if help:
-                wrap_help_paras(textwrapper, help.strip())
+            print "\n%s: %s\n" % (temp['name'], temp['summary'])
+            if temp['help']:
+                wrap_help_paras(textwrapper, temp['help'])
     print
 
 
@@ -215,15 +212,15 @@ def list_printable_templates():
 
     cats = list_sorted_templates()
     templates = sum(cats.values(), [])   # flatten into single list
-    max_name = max([len(x.name) for x  in templates])
+    max_name = max([len(x['name']) for x  in templates])
 
     for title, items in cats.items():
         print >>s, "\n%s\n" % title
         for entry in items:
             print >>s, "|  %s:%s %s\n" % (
-                 entry.name,
-                ' '*(max_name-len(entry.name)),
-                entry.load().summary),
+                 entry['name'],
+                ' '*(max_name-len(entry['name'])),
+                entry['summary']),
 
     s.seek(0)
     return s.read()
