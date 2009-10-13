@@ -19,7 +19,7 @@ def _get_local_commands():
     for entry in pkg_resources.iter_entry_points('zopeskel.zopeskel_sub_template'):
         localc = entry.load()
         for parent in localc.parent_templates:
-            out.setdefault(parent, []).append((entry.name, localc.summary))
+            out.setdefault(parent, []).append((entry.name, localc))
     return out
 
 def make_html():
@@ -46,10 +46,25 @@ def make_html():
             print "</ul>"
             subs = subtemplates.get(temp['name'])
             if subs:
-                print "<h4>Sub Templates:</h4>"
+                print "<h4>Local Commands:</h4>"
                 print "<ul>"
                 for sub in subs:
-                    print "<li>%s (%s)</li>" % (sub[0], sub[1])
+                    subname, subc = sub
+                    print "<li>%s (%s)" % (subname, subc.summary)
+                    help = getattr(subc, 'help', '')
+                    for para in help.split("\n\n"):
+                        if para:
+                            print '<p>%s</p>' % para
+                    if subc.vars:
+                        print "<h5>Local Command Fields:</h5>"
+                        print "<ul>"
+                        for var in subc.vars:
+                            if hasattr(var, 'pretty_description'):
+                                print "<li>%s</li>" % var.pretty_description()
+                            else:
+                                print "<li>%s</li>" % var.name
+                        print "</ul><br />"
+                    print "</li>"
                 print "</ul>"
 
 if __name__=="__main__":
