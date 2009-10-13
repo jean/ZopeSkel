@@ -25,7 +25,7 @@ def list_sorted_templates(filter_group=False):
     accidentally include things from the machine it's being run
     on.
     """
-    
+
     cats = {}
     # grab a list of all paster create template entry points
     if filter_group:
@@ -40,11 +40,12 @@ def list_sorted_templates(filter_group=False):
             template = entry.load()
             if issubclass(template, BaseTemplate):
                 templates.append(
-                        { 'name': entry.name, 
-                          'summary': template.summary, 
-                          'class': template, 
+                        { 'name': entry.name,
+                          'summary': template.summary,
+                          'class': template,
                           'category': getattr(template, 'category', 'Uncategorized'),
-                          'help': getattr(template, 'help', "").strip()
+                          'help': getattr(template, 'help', "").strip(),
+                          'entry':entry,
                         } )
         except Exception, e:
             # We will not be stopped!

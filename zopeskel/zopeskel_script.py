@@ -69,7 +69,7 @@ Interactive Help
 ----------------
 
 While being prompted on each question, you can enter with a single
-question mark to receive interactive help for that question. 
+question mark to receive interactive help for that question.
 
 For example::
 
@@ -178,7 +178,7 @@ def checkdots(template, name):
                 "Not a valid Python dotted name: %s ('%s' is not an identifier)" % (name, part))
 
 
-    
+
 def usage():
     templates = list_printable_templates()
     print USAGE % templates
@@ -229,7 +229,7 @@ def list_printable_templates():
 def generate_dotzopeskel():
     """Make an example .zopeskel file for user."""
 
-    common, advanced = list_sorted_templates()
+    cats = list_sorted_templates()
     print """
 
 # This file can contain preferences for zopeskel.
@@ -238,18 +238,17 @@ def generate_dotzopeskel():
 
 [DEFAULT]
 """
-    for list_ in (common, advanced):
-        for temp in list_:
-            print "\n[%s]\n" % temp.name
-            tempc = temp.load()
-            for var in tempc.vars:
-                if hasattr(var, 'pretty_description'):
-                    print "# %s" % var.pretty_description()
-                print "# %s = %s\n" % ( var.name, var.default )
+    for temp in sum(cats.values(), []):
+        print "\n[%(name)s]\n" % temp
+        tempc = temp['entry'].load()
+        for var in tempc.vars:
+            if hasattr(var, 'pretty_description'):
+                print "# %s" % var.pretty_description()
+            print "# %s = %s\n" % ( var.name, var.default )
 
 def process_args():
     """ return a tuple of template_name, output_name and everything else
-    
+
         everything else will be returned as a dictionary of key/value pairs
     """
     args = sys.argv[1:]
@@ -289,12 +288,12 @@ def run():
     if len(sys.argv) == 1:
         usage()
         return
-    
+
     try:
         template_name, output_name, opts = process_args()
     except SyntaxError, e:
         print "Error: There was a problem with your arguments: %s\n" % e
-    
+
     rez = pkg_resources.iter_entry_points(
             'paste.paster_create_template',
             template_name)
@@ -312,7 +311,7 @@ def run():
         print template.help
 
     create = get_commands()['create'].load()
-    
+
     command = create('create')
 
     if output_name:
@@ -335,10 +334,10 @@ def run():
                 print "\nERROR: %s" % e
             else:
                 break
-            
+
 
     print """
-If at any point, you need additional help for a question, you can enter 
+If at any point, you need additional help for a question, you can enter
 '?' and press RETURN.
 """
 
