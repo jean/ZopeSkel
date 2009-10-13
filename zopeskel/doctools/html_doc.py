@@ -30,8 +30,8 @@ def make_html():
     for title, list_ in cats.items():
         print "<h2>%s</h2>" % title
         for temp in list_:
-            print "<h3>%s</h3>" % temp.name
-            tempc = temp.load()
+            print "<h3>%(name)s</h3>" % temp
+            tempc = temp['entry'].load()
             print '<p class="summary">%s</p>' % tempc.summary
             help = getattr(tempc, 'help', '')
             for para in help.split("\n\n"):
@@ -44,13 +44,13 @@ def make_html():
                 else:
                     print "<li>%s</li>" % var.name
             print "</ul>"
-            subs = subtemplates.get(temp.name)
+            subs = subtemplates.get(temp['name'])
             if subs:
                 print "<h4>Sub Templates:</h4>"
                 print "<ul>"
                 for sub in subs:
                     print "<li>%s (%s)</li>" % (sub[0], sub[1])
                 print "</ul>"
-            
+
 if __name__=="__main__":
     make_html()
