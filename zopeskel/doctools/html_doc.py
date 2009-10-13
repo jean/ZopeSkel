@@ -63,7 +63,7 @@ def make_html():
                                 print "<li>%s</li>" % var.pretty_description()
                             else:
                                 print "<li>%s</li>" % var.name
-                        print "</ul><br />"
+                        print "</ul>"
                     print "</li>"
                 print "</ul>"
 
