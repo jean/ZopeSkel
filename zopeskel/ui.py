@@ -15,7 +15,8 @@ from zopeskel.base import BaseTemplate
 
 def list_sorted_templates(filter_group=False):
     """
-    Returns list of categories and templates.
+    Returns a dictionary of template lists by category.  Key is the category
+    name, value is a list of templates.
 
     If "filter_group" is True, then this explictly filters to
     things provided by the ZopeSkel package--thereby hiding any
