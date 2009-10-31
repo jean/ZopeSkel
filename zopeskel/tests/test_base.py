@@ -82,16 +82,20 @@ class test_base_template(unittest.TestCase):
 
         template = MyTemplate('some_name')
         pages = template.pages
-        self.assertEqual(len(pages), 3)
+        self.assertEqual(len(pages), 4)
 
+        page = pages.pop(0)
+        self.assertEqual(page['name'], 'Begin')
+        questions = page['vars']
+        self.assertEqual(len(questions), 1)
+        self.assertEqual(questions[0].name, 'expert_mode')
         page = pages.pop(0)
         self.assertEqual(page['name'], 'Main')
         questions = page['vars']
-        self.assertEqual(len(questions), 4)
-        self.assertEqual(questions[0].name, 'expert_mode')
-        self.assertEqual(questions[1].name, 'basic_var')
-        self.assertEqual(questions[2].name, 'bool_var')
-        self.assertEqual(questions[3].name, 'dot_var')
+        self.assertEqual(len(questions), 3)
+        self.assertEqual(questions[0].name, 'basic_var')
+        self.assertEqual(questions[1].name, 'bool_var')
+        self.assertEqual(questions[2].name, 'dot_var')
 
         page = pages.pop(0)
         self.assertEqual(page['name'], 'Carl')
@@ -104,37 +108,37 @@ class test_base_template(unittest.TestCase):
         questions = page['vars']
         self.assertEqual(len(questions), 1)
         self.assertEqual(questions[0].name, 'txt_var')
-        
+
     def test_get_position_in_stack(self):
         """ verify that the position of a template can be reliably found
         """
         stack = self.template.get_template_stack(self.command)
         self.assertRaises(ValueError, self.template.get_position_in_stack, stack)
-        
+
         new_template = Archetype('joe')
         self.assertEqual(new_template.get_position_in_stack(stack), len(stack)-1)
-        
+
     def test_get_template_stack(self):
         """ verify that running this command against a create command
             with the argument '-t archetype' returns the expected vals
         """
         stack = self.template.get_template_stack(self.command)
         self.assertEqual(len(stack), 3)
-        self.failIf(self.template.__class__ in 
+        self.failIf(self.template.__class__ in
                     [t.__class__ for t in stack], "%s" % stack)
         new_template = Archetype('joe')
         self.failUnless(new_template.__class__ in
                         [t.__class__ for t in stack], "%s" % stack)
-        
+
         for c in [t.__class__ for t in stack]:
-            self.failUnless(isinstance(new_template, c), 
+            self.failUnless(isinstance(new_template, c),
                             "%s does not appear to be a subclass of %s" % (new_template, c))
-        
+
     def test_should_print_subcommands(self):
         n_template = BasicNamespace('tom')
         p_template = Plone('bob')
         a_template = Archetype('joe')
-        
+
         self.failIf(n_template.should_print_subcommands(self.command))
         self.failIf(p_template.should_print_subcommands(self.command))
         self.failUnless(a_template.should_print_subcommands(self.command))

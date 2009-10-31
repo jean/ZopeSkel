@@ -87,7 +87,7 @@ class BaseTemplate(templates.Template):
             'expert_mode',
             title='Expert Mode?',
             description='What question mode would you like? (easy/expert/all)?',
-            page='Main',
+            page='Begin',
             default='easy',
             choices=('easy','expert','all'),
             help="""
