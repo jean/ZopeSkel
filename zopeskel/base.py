@@ -79,6 +79,8 @@ class BaseTemplate(templates.Template):
     #localcommand
     use_local_commands = False
     null_value_marker = []
+    pre_run_msg = None
+    post_run_msg = None
 
     vars = [
         StringChoiceVar(
@@ -152,23 +154,23 @@ Commands:
 
 For more information: paster help COMMAND""" % print_commands
             print '-' * 78
-    
+
     def print_zopeskel_message(self, msg_name):
-        """ print a message stored as an attribute of the template 
+        """ print a message stored as an attribute of the template
         """
         msg = getattr(self, msg_name, None)
         if msg:
             textwrapper = TextWrapper(
                     initial_indent="**  ",
                     subsequent_indent="**  ",
-                    ) 
+                    )
             print "\n" + '*'*74
             wrap_help_paras(textwrapper, msg)
             print '*'*74 + "\n"
-    
+
     def pre(self, *args, **kwargs):
         templates.Template.pre(self, *args, **kwargs)
-        
+
     def get_template_stack(self, command):
         """ return a list of the template objects being run through in the given command
         """
@@ -177,17 +179,17 @@ For more information: paster help COMMAND""" % print_commands
         for tmpl_name in asked_tmpls:
             command.extend_templates(templates, tmpl_name)
         return [tmpl_obj for tmpl_name, tmpl_obj in templates]
-        
+
     def get_position_in_stack(self, stack):
         """ return the index of the currently running template in the overall stack
         """
         class_stack = [t.__class__ for t in stack]
-        
+
         return class_stack.index(self.__class__)
-        
+
     def should_print_subcommands(self, command):
         """ return true or false
-        
+
             if this template has subcommands _and_ is the last template
             to be run through that does, go ahead and return true, otherwise
             return false
@@ -195,28 +197,28 @@ For more information: paster help COMMAND""" % print_commands
         if not getattr(self, 'use_local_commands', False):
             return False
         # we have local commands for this template, is it the last one for
-        # which this is true?  
+        # which this is true?
         stack = self.get_template_stack(command)
         index = self.get_position_in_stack(stack)
         remaining_stack = stack[index+1:]
-        have_subcommands_left = [getattr(t, 'use_local_commands', False) 
+        have_subcommands_left = [getattr(t, 'use_local_commands', False)
                                  for t in remaining_stack]
         if True in have_subcommands_left:
             return False
-        
+
         return True
-    
+
     def post(self, command, output_dir, vars):
         if self.should_print_subcommands(command):
             self.print_subtemplate_notice()
         templates.Template.post(self, command, output_dir, vars)
-        # at the very end of it all, print the post_run_msg so we can 
+        # at the very end of it all, print the post_run_msg so we can
         # inform users of important information.
         self.print_zopeskel_message('post_run_msg')
 
     def _filter_for_modes(self, mode, expected_vars):
         """Filter questions down according to our mode.
-        
+
         ALL = show all questions
         EASY, EXPERT = show just those
         """
@@ -254,12 +256,12 @@ For more information: paster help COMMAND""" % print_commands
                 get_var(expect_vars, 'namespace_package2').default = parts[1]
             package_name = parts[-1]
             get_var(expect_vars, 'package').default = package_name
-            
+
     def check_vars(self, vars, cmd):
         # if we need to notify users of anything before they start this
         # whole process, we can do it here.
         self.print_zopeskel_message('pre_run_msg')
-        
+
         # Copied and modified from PasteScript's check_vars--
         # the method there wasn't hookable for the things
         # we need -- question posing, validation, etc.
