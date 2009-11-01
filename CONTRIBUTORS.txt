@@ -18,5 +18,11 @@ Contributors:
 
     - Emanuel Sartor : added test infrastructure to the archetype template.
 
+    - Joel Burton : created the zopeskel script.
+
+    - Cris Ewing : tested the zopeskel script.
+
+    - Chris Calloway : created the zopeskel.doctools package.
+
 See HISTORY for full details.
 

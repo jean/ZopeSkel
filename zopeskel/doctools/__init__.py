@@ -1,3 +1,0 @@
-"""Documentation tools for ZopeSkel."""
-
-

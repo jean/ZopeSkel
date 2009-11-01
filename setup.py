@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.13dev'
+version = '2.14'
 
 setup(name='ZopeSkel',
       version=version,
@@ -11,6 +11,7 @@ setup(name='ZopeSkel',
         "Development Status :: 5 - Production/Stable",
         "Framework :: Zope2",
         "Framework :: Zope3",
+        "Framework :: Plone",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
