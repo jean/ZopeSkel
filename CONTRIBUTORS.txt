@@ -24,5 +24,7 @@ Contributors:
 
     - Chris Calloway : created the zopeskel.doctools package.
 
+    - Chris Rossi : create the zopeskel.webui package.
+
 See HISTORY for full details.
 
