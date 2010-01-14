@@ -8,6 +8,7 @@ from Testing import ZopeTestCase as ztc
 
 from ${namespace_package}.${package}.tests import base
 
+
 def test_suite():
     return unittest.TestSuite([
 
