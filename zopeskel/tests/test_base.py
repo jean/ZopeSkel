@@ -41,7 +41,7 @@ class test_base_template(unittest.TestCase):
 
     def test_filter_for_modes(self):
         """ _filter_for_modes should return a dictionary of var names to
-            be hidden from view dependant on the running mode of zopeskel
+            be hidden from view dependent on the running mode of zopeskel
             and the modes property of each variable
         """
         easy_vars = [var.name for var in self.vars

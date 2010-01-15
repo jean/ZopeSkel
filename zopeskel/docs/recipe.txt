@@ -49,7 +49,7 @@ Now let's try to run the recipe own tests::
     >>> import sys
     >>> python_ = sys.executable
     >>> res = read_sh('%s setup.py test' % python_)
-    >>> res.strip().endswith('OK')
+    >>> 'doctest: readme.txt ... ok' in res.strip().lower()
     True
 
 And the dedicated buildout `test` script (to be fixed)::

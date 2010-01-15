@@ -30,7 +30,7 @@ setup(name='ZopeSkel',
         "Cheetah>1.0,<=2.2.1",
       ],
       tests_require=['zope.testing', 'zc.buildout', 'Cheetah', 'PasteScript'],
-      test_suite='zopeskel.tests.test_zopeskeldocs.test_suite',
+      test_suite='zopeskel.tests.test_all.test_suite',
       entry_points="""
       [paste.paster_create_template]
       basic_namespace = zopeskel:BasicNamespace

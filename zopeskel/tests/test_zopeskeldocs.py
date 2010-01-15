@@ -136,7 +136,7 @@ def testTearDown(test):
     sys.path = ws.entries[:]
 
 def doc_suite(test_dir, setUp=testSetUp, tearDown=testTearDown, globs=None):
-    """Returns a test suite, based on doctests found in /doctest."""
+    """Returns a test suite, based on doctests found in /docs."""
     suite = []
     if globs is None:
         globs = globals()
