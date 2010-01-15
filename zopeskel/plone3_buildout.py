@@ -52,12 +52,16 @@ See README.txt for details.
     )
 
     def pre(self, command, output_dir, vars):
-        vars['oldplone'] = vars['plone_version'].startswith("3.0") or \
-                            vars['plone_version'].startswith("3.1")
-        vars['veryoldplone'] = vars['plone_version'].startswith("2.")
-        if vars['veryoldplone']:
-            vars['zope2_version'] = "2.9.10"
-        vars['newplone'] = not vars['veryoldplone'] and not vars['oldplone']
+        vars['tarballs'] = vars['plone_version'].startswith("3.0") or \
+                           vars['plone_version'].startswith("3.1")
+        vars['z29tarballs'] = vars['plone_version'].startswith("2.")
+        if vars['z29tarballs']:
+            vars['zope2_version'] = "2.9.12"
+        vars['eggifiedplone'] = not vars['z29tarballs'] and not vars['tarballs']
+        vars['eggifiedzope'] = vars['plone_version'].startswith("4.")
+        if vars['eggifiedzope']:
+            vars['zope2_install'] = True
+            vars['zope2_version'] = "2.12.3"
         super(Plone3Buildout, self).pre(command, output_dir, vars)
 
 

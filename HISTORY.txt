@@ -1,12 +1,8 @@
 Changelog
 =========
 
-2.14 - November 1st, 2009
--------------------------
-
-* Remove extra quotes in a plone_pas template file, which were
-  generating a syntax error.
-  [dukebody]
+2.15 - Unreleased
+-----------------
 
 * Template summaries (one-line descriptions) were improved.
   [pupq]
@@ -98,15 +94,50 @@ Changelog
   Find this in the zopeskel.doctools package.
   [cbc]
 
+* Use the eggified Zope 2.12.3 for buildouts targeting Plone 4.x.
+  Use 2.9.12 for buildouts targeting Plone 2.x.
+  [maurits]
 
-2.13 - October 3rd, 2009
-------------------------
+* Remove unnecessary 'title' argument from jsregistry.xml example.
+  This fixes http://plone.org/products/zopeskel/issues/18.  
+  [dukebody]
+
+2.14.2 - December, 8th
+----------------------
+
+* Back out untested, undocumented changes from paris sprint that broke some 
+  templates
+  [MatthewWilkes]
+
+2.14.1 - November, 19th
+-----------------------
+
+* Fix packaging error
+  [MatthewWilkes]
+
+2.14 - November, 19th
+---------------------
+
+* Use the eggified Zope 2.12.1 for buildouts targeting Plone 4.x. Bump 3.x
+  default version to 3.3.2.
+  [MatthewWilkes]
+
+* Use distribute for Plone buildouts
+  [MatthewWilkes]
+
+* Remove extra quotes in a plone_pas template file, which were
+  generating a syntax error.
+  [dukebody]
+
+
+2.13 - October, 3rd
+-------------------
 
 * Pinned Cheetah to <= 2.2.1 and eliminated install_requires for elementtree
   (markdown not a requirement for Cheetah 2.2.1). Allows zopeskel to easy_install
   with python 2.4. Can remove pinning when markdown is fixed.
   [cbcunc]
-
+  
 * plone3_buildout: added 'fake-zope-eggs = true' to the zope2 part, as
   otherwise you get e.g. 'ImportError: No module named ImplPython'
   when using a plone.recipe.zope2install < 3.0, like pinned by Plone
@@ -277,6 +308,7 @@ Changelog
   as an extra distribution but integrated in Silva all. Remove
   question, and update buildout.cfg template.
   [thefunny]
+
 
 2.8 - July 31, 2008
 -------------------
