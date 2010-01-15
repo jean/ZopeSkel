@@ -74,6 +74,9 @@ Changelog
 
 * New unit tests were written for new features.
   [cewing]
+  
+* New and repaired unit tests were added into the default test suite
+  [cewing]
 
 * Rather than using a generic var() class for all variables ("questions"),
   subclasses for different types of variables--string, boolean, choices,
