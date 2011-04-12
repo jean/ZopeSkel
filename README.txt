@@ -124,7 +124,7 @@ Using local commands to create a content type package
 -----------------------------------------------------
 
 To use local commands you need to first include paster command in your buildout.cfg.
-plone4_buildout does this by default.
+*plone4_buildout* template includes this by default.
 
 Starting inside your Plone buildout, first create an archetypes package::
 

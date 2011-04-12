@@ -5,23 +5,24 @@ from zopeskel import abstract_buildout
 class Plone4Buildout(abstract_buildout.AbstractBuildout):
     _template_dir = 'templates/plone4_buildout'
     summary = "A buildout for Plone 4 developer installation"
-    help = """
-
-This template creates a Plone 4 buildout for development purposes.
+    help = """This template creates a Plone 4 buildout for development purposes.
 It uses Zope in debug mode and sets a default password.
-Not r
 """
-    pre_run_msg = """This """
+    pre_run_msg = ""
 
     post_run_msg = """
 Generation finished.
 
 Now run bootstrap and buildout:
 
-    python bootstrap.by
-    bin/buildout
+python bootstrap.by
 
-See README.txt for more details.
+bin/buildout
+
+See ZopeSkel add-on page for more details:
+
+http://plone.org/products/zopeskel 
+
 """
 
     required_templates = []
@@ -37,7 +38,7 @@ See README.txt for more details.
     )
     
     # Set default Plone 4 version
-    vars[1].default = "4.0.5"
+    vars[0].default = "4.0.5"
     
     def pre(self, command, output_dir, vars):
         
