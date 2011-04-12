@@ -9,8 +9,36 @@ and Zope development projects.
 ZopeSkel uses the `paster <http://pythonpaste.org/script/>`_ Python library
 internally.
 
+ABC of typical Plone site development
+-======================================
+
+For a typical Plone site development the following path is recommended
+
+* Install ZopeSkel package to virtualenv, or otherwise
+  isolated from system Python installation on your local computer.
+
+* Create a new Plone 4 development buildout using 
+  plone4_buildout template
+  
+* Create a new logic package for the content types, forms and logic of the site.
+  This can be done using Dexterity ZopeSkel template
+  `(more info) <http://collective-docs.plone.org/content/dexterity.html>`_
+
+* Create a new theme package for the site.
+  This can be done using XDV template
+  `(more info) <http://collective-docs.plone.org/templates_css_and_javascripts/xdv.html>`_
+
+* Test and develop on your local computer until everything is perfect 
+ 
+* Put created packages under version control (Subversion, Git) 
+  
+* Create a Plone installation on the production server. Plone Unified
+  installer is the preferred method.
+
+* Install your site customization packages on the production server
+
 Installing ZopeSkel
-===================
+====================
 
 ZopeSkel can be installed in one of two ways: with `buildout
 <http://www.buildout.org/>`_ or with `virtualenv
@@ -58,7 +86,6 @@ environment::
 
 Once this is complete, you will be left with ``zopeskel`` and ``paster``
 commands in the ``bin`` directory inside your virtualenv.
-
 
 Available Templates
 ===================
