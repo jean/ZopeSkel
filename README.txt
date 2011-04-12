@@ -113,7 +113,7 @@ functionality to an existing ZopeSkel generated project.
 
 	Local commands require using the ``paster`` command directly - the 
 	``zopeskel`` command does not support them yet.
-
+	
 .. note ::
 
     Not all ZopeSkel templates provide local commands.  In general, if local
@@ -122,6 +122,9 @@ functionality to an existing ZopeSkel generated project.
 
 Using local commands to create a content type package
 -----------------------------------------------------
+
+To use local commands you need to first include paster command in your buildout.cfg.
+plone4_buildout does this by default.
 
 Starting inside your Plone buildout, first create an archetypes package::
 
@@ -142,7 +145,7 @@ content type::
     Commands:
     ...
 
-    ZopeSkel local commands:
+    ... local commands:
 	    addcontent   Adds plone content types to your project
                 
 
@@ -195,6 +198,13 @@ Since version 1.5, ZopeSkel has tests.  It's required to run these
 before you check in any changes you make. They can be run like so::
 
     python setup.py test
+    
+Running trunk version
+----------------------
+
+This is useful if you are developing ZopeSkel itself.
+
+See TRUNK.txt.
 
 More info
 =========
