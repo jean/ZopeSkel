@@ -14,8 +14,12 @@ Installing ZopeSkel
 
 ZopeSkel can be installed in one of two ways: with `buildout
 <http://www.buildout.org/>`_ or with `virtualenv
-<http://virtualenv.openplans.org/>`_. Despite existing documentation to the
-contrary, it is not recommended to install ZopeSkel in your system python.
+<http://virtualenv.openplans.org/>`_. 
+
+.. note ::
+
+    Despite existing documentation to the
+    contrary, it is not recommended to install ZopeSkel in your system python.
 
 Buildout installation 
 ---------------------------
@@ -124,9 +128,11 @@ Using local commands to create a content type package
 -----------------------------------------------------
 
 To use local commands you need to first include paster command in your buildout.cfg.
-*plone4_buildout* template includes this by default.
+*plone4_buildout* template includes this by default. For unified installer or
+older buildouts, 
+`refer to the documentation how to include it <http://collective-docs.plone.org/tutorials/paste.html>`_.
 
-Starting inside your Plone buildout, first create an archetypes package::
+Starting inside your Plone buildout, first create a new archetypes add-on::
 
     cd src
     ../bin/zopeskel archetype mycompanyid.mycustomcontenttypes
@@ -202,9 +208,7 @@ before you check in any changes you make. They can be run like so::
 Running trunk version
 ----------------------
 
-This is useful if you are developing ZopeSkel itself.
-
-See TRUNK.txt.
+If you are developing ZopeSkel itsel, instructions to run ZopeSkel from source check are in TRUNK.txt.
 
 More info
 =========
@@ -212,6 +216,10 @@ More info
 Issue tracker
 
 * http://plone.org/products/zopeskel/issues
+
+Plone and ZopeSkel related documentation
+
+* http://collective-docs.plone.org/tutorials/paste.html
 
 Source code
 
