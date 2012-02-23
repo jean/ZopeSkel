@@ -7,7 +7,7 @@ tests_require = ['zope.testing', 'zc.buildout', 'Cheetah', 'PasteScript']
 setup(name='ZopeSkel',
       version=version,
       description="Templates and code generator for quickstarting Plone / Zope projects.",
-      long_description=open('README.txt').read() + "\n" +
+      long_description=open('README.rst').read() + "\n" +
                        open('HISTORY.txt').read(),
       classifiers=[
         "Development Status :: 5 - Production/Stable",
